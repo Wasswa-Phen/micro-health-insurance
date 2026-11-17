@@ -195,3 +195,4 @@ Backend locks the wallet row (`SELECT ... FOR UPDATE`), checks the balance, inse
 | Attendant | `0772100101` | Nakato Sarah | Kisenyi Care Pharmacy |
 | Client | `0701555111` | Mukasa John Bosco | Policy `MHI-KLA-2026-00001`, balance UGX 10,500 |
 | Client | `0782555222` | Namuli Grace | Policy `MHI-KLA-2026-00002`, balance UGX 15,000 |
+

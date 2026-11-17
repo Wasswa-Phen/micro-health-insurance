@@ -196,3 +196,4 @@ INSERT INTO claims (claim_id, wallet_id, pharmacy_id, attendant_id, prescription
 -- =====================================================================
 --  End of script
 -- =====================================================================
+

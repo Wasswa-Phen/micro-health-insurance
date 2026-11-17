@@ -159,3 +159,4 @@ function isValidUgPhone(string $phone): bool
 {
     return (bool) preg_match('/^07[0-9]{8}$/', $phone);
 }
+
