@@ -412,3 +412,4 @@ flowchart TD
     C11 --> C9
     C10 -- "Yes" --> C12(["INSERT INTO pharmacies (status=active)\nRedirect admin/dashboard.php?success=pharmacy_added"])
 ```
+
