@@ -85,3 +85,4 @@ ALTER TABLE claims
 -- pharmacies
 -- ---------------------------------------------------------------------
 ALTER TABLE pharmacies MODIFY address VARCHAR(255) NULL;
+
