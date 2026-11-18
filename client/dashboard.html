@@ -1,0 +1,560 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AfyaMicro Kampala client dashboard.">
+    <title>My Dashboard | AfyaMicro Kampala</title>
+
+    <link rel="stylesheet" href="../assets/css/base.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="../assets/css/content-expansion.css">
+</head>
+
+<body class="dashboard-body">
+
+<div class="dashboard-layout">
+
+    <!-- MOBILE SIDEBAR OVERLAY -->
+    <div class="dashboard-overlay" id="dashboardOverlay"></div>
+
+    <!-- SIDEBAR -->
+    <aside class="dashboard-sidebar" id="dashboardSidebar">
+
+        <a href="../index.html" class="dashboard-brand">
+            <img src="../assets/images/afyamicrologo.svg" alt="AfyaMicro Kampala">
+        </a>
+
+        <div class="sidebar-section-label">MAIN MENU</div>
+
+        <nav class="dashboard-nav">
+            <a href="dashboard.html" class="active">
+                <span class="nav-icon">⌂</span>
+                <span>Overview</span>
+            </a>
+
+            <a href="wallet.html">
+                <span class="nav-icon">▣</span>
+                <span>My Health Wallet</span>
+            </a>
+
+            <a href="contributions.html">
+                <span class="nav-icon">↗</span>
+                <span>Contributions</span>
+            </a>
+
+            <a href="claims.html">
+                <span class="nav-icon">♡</span>
+                <span>My Claims</span>
+            </a>
+
+            <a href="transactions.html">
+                <span class="nav-icon">⇄</span>
+                <span>Transactions</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-section-label">ACCOUNT</div>
+
+        <nav class="dashboard-nav">
+            <a href="notifications.html">
+                <span class="nav-icon">♧</span>
+                <span>Notifications</span>
+                <span class="nav-count">3</span>
+            </a>
+
+            <a href="profile.html">
+                <span class="nav-icon">♙</span>
+                <span>My Profile</span>
+            </a>
+
+            <a href="settings.html">
+                <span class="nav-icon">⚙</span>
+                <span>Settings</span>
+            </a>
+
+            <a href="../pharmacies.html">
+                <span class="nav-icon">✚</span>
+                <span>Find a Pharmacy</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <nav class="dashboard-nav">
+                <a href="../how-it-works.html">
+                    <span class="nav-icon">ⓘ</span>
+                    <span>Help & Support</span>
+                </a>
+
+                <a href="../auth/login.html" id="logoutLink">
+                    <span class="nav-icon">⇥</span>
+                    <span>Sign Out</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-profile">
+                <div class="profile-avatar" id="sidebarAvatar">U</div>
+                <div>
+                    <strong id="sidebarUserName">AfyaMicro Member</strong>
+                    <small>Client Account</small>
+                </div>
+            </div>
+        </div>
+
+    </aside>
+
+    <!-- MAIN DASHBOARD -->
+    <main class="dashboard-main">
+
+        <!-- TOP BAR -->
+        <header class="dashboard-topbar">
+
+            <div class="dashboard-topbar-left">
+                <button class="dashboard-menu-toggle"
+                    id="dashboardMenuToggle"
+                    aria-label="Open dashboard menu"
+                    aria-expanded="false">
+                    ☰
+                </button>
+
+                <div>
+                    <h1 class="dashboard-page-title">My Dashboard</h1>
+                    <p class="dashboard-page-subtitle">
+                        Your healthcare account at a glance
+                    </p>
+                </div>
+            </div>
+
+            <div class="dashboard-topbar-actions">
+
+                <a href="notifications.html"
+                    class="dashboard-notification"
+                    aria-label="Notifications">
+                    ♧
+                    <span class="notification-dot"></span>
+                </a>
+
+                <div class="dashboard-user">
+                    <div class="profile-avatar" id="topbarAvatar">U</div>
+
+                    <div class="dashboard-user-details">
+                        <strong id="topbarUserName">AfyaMicro Member</strong>
+                        <small>Member account</small>
+                    </div>
+                </div>
+
+            </div>
+        </header>
+
+        <!-- WELCOME -->
+        <section class="dashboard-welcome">
+
+            <div>
+                <h2>Welcome back, <span id="welcomeName">Member</span>!</h2>
+                <p>
+                    Here is an overview of your health contributions
+                    and account activity.
+                </p>
+            </div>
+
+            <span class="demo-label">
+                <span>●</span> DEMONSTRATION ACCOUNT
+            </span>
+
+        </section>
+
+        <!-- SUMMARY CARDS -->
+        <section class="dashboard-stats">
+
+            <article class="stat-card">
+                <div class="stat-card-top">
+                    <span class="stat-icon">▣</span>
+                </div>
+                <div class="stat-label">Health Wallet Balance</div>
+                <div class="stat-value" id="summaryBalance">UGX 0</div>
+                <div class="stat-description">Demonstration balance</div>
+            </article>
+
+            <article class="stat-card">
+                <div class="stat-card-top">
+                    <span class="stat-icon">↗</span>
+                </div>
+                <div class="stat-label">Total Contributions</div>
+                <div class="stat-value" id="summaryContributions">UGX 0</div>
+                <div class="stat-description">Illustrative account activity</div>
+            </article>
+
+            <article class="stat-card">
+                <div class="stat-card-top">
+                    <span class="stat-icon">♡</span>
+                </div>
+                <div class="stat-label">Total Claims</div>
+                <div class="stat-value" id="summaryClaims">0</div>
+                <div class="stat-description">Demonstration records</div>
+            </article>
+
+            <article class="stat-card">
+                <div class="stat-card-top">
+                    <span class="stat-icon">✓</span>
+                </div>
+                <div class="stat-label">Account Status</div>
+                <div class="stat-value" id="summaryStatus">Demo</div>
+                <div class="stat-description">Not an active insurance policy</div>
+            </article>
+
+        </section>
+
+        <!-- WALLET AND QUICK ACTIONS -->
+        <section class="dashboard-content-grid">
+
+            <article class="dashboard-wallet">
+
+                <div class="wallet-label">MY HEALTH WALLET</div>
+
+                <div class="wallet-balance" id="walletBalance">
+                    UGX 0
+                </div>
+
+                <div class="wallet-details">
+                    <div>
+                        <span>Total contributions</span>
+                        <strong id="walletContributions">UGX 0</strong>
+                    </div>
+
+                    <div>
+                        <span>Member since</span>
+                        <strong id="memberSince">Demo account</strong>
+                    </div>
+                </div>
+
+                <div class="wallet-actions">
+                    <a href="contributions.html" class="wallet-button primary">
+                        + Add Contribution
+                    </a>
+
+                    <a href="transactions.html" class="wallet-button">
+                        View Transactions
+                    </a>
+                </div>
+
+            </article>
+
+            <article class="dashboard-panel">
+
+                <div class="panel-heading">
+                    <h3>Quick Actions</h3>
+                </div>
+
+                <div class="quick-actions">
+
+                    <a href="contributions.html" class="quick-action">
+                        <span class="quick-action-icon">＋</span>
+                        <strong>Add Contribution</strong>
+                    </a>
+
+                    <a href="claims.html" class="quick-action">
+                        <span class="quick-action-icon">♡</span>
+                        <strong>Submit a Claim</strong>
+                    </a>
+
+                    <a href="../pharmacies.html" class="quick-action">
+                        <span class="quick-action-icon">✚</span>
+                        <strong>Find Pharmacy</strong>
+                    </a>
+
+                    <a href="profile.html" class="quick-action">
+                        <span class="quick-action-icon">♙</span>
+                        <strong>My Profile</strong>
+                    </a>
+
+                </div>
+
+            </article>
+
+        </section>
+
+        <!-- RECENT ACTIVITY AND NOTIFICATIONS -->
+        <section class="dashboard-content-grid">
+
+            <article class="dashboard-panel">
+
+                <div class="panel-heading">
+                    <h3>Recent Transactions</h3>
+                    <a href="transactions.html">View all →</a>
+                </div>
+
+                <div class="dashboard-table-wrap">
+
+                    <table class="dashboard-table">
+                        <thead>
+                            <tr>
+                                <th>TRANSACTION</th>
+                                <th>DATE</th>
+                                <th>AMOUNT</th>
+                                <th>STATUS</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="recentTransactions">
+
+                            <tr>
+                                <td>
+                                    <span class="table-primary-text">
+                                        Sample contribution
+                                    </span>
+                                    <span class="table-secondary-text">
+                                        Demo reference: AFY-001
+                                    </span>
+                                </td>
+                                <td>18 Nov 2026</td>
+                                <td>UGX 10,000</td>
+                                <td>
+                                    <span class="status-pill status-success">
+                                        Demo
+                                    </span>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <span class="table-primary-text">
+                                        Sample contribution
+                                    </span>
+                                    <span class="table-secondary-text">
+                                        Demo reference: AFY-002
+                                    </span>
+                                </td>
+                                <td>12 Nov 2026</td>
+                                <td>UGX 5,000</td>
+                                <td>
+                                    <span class="status-pill status-success">
+                                        Demo
+                                    </span>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+                </div>
+
+                <p class="field-hint">
+                    All displayed transaction records are illustrative.
+                    No real payment has been processed.
+                </p>
+
+            </article>
+
+            <article class="dashboard-panel">
+
+                <div class="panel-heading">
+                    <h3>Recent Notifications</h3>
+                    <a href="notifications.html">View all →</a>
+                </div>
+
+                <div class="dashboard-notice-list" id="dashboardNotifications">
+
+                    <div class="dashboard-notice">
+                        <span class="notice-icon">✓</span>
+                        <div>
+                            <strong>Welcome to AfyaMicro</strong>
+                            <p>Your demonstration account is ready.</p>
+                            <time>Account setup</time>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-notice">
+                        <span class="notice-icon">♡</span>
+                        <div>
+                            <strong>Explore your health wallet</strong>
+                            <p>Discover how contributions are displayed.</p>
+                            <time>Getting started</time>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-notice">
+                        <span class="notice-icon">✚</span>
+                        <div>
+                            <strong>Explore partner pharmacies</strong>
+                            <p>Visit the pharmacy directory.</p>
+                            <time>Information</time>
+                        </div>
+                    </div>
+
+                </div>
+
+            </article>
+
+        </section>
+
+        <!-- CLAIMS AND ACCOUNT INFORMATION -->
+        <section class="dashboard-content-grid">
+
+            <article class="dashboard-panel">
+
+                <div class="panel-heading">
+                    <h3>Claims Overview</h3>
+                    <a href="claims.html">View claims →</a>
+                </div>
+
+                <div class="dashboard-table-wrap">
+                    <table class="dashboard-table">
+                        <thead>
+                            <tr>
+                                <th>CLAIM REFERENCE</th>
+                                <th>TYPE</th>
+                                <th>AMOUNT</th>
+                                <th>STATUS</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="dashboardClaims">
+                            <tr>
+                                <td>
+                                    <span class="table-primary-text">No live claims</span>
+                                </td>
+                                <td>—</td>
+                                <td>—</td>
+                                <td>
+                                    <span class="status-pill status-pending">
+                                        Demo
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p class="field-hint">
+                    Claims displayed here will be connected to the
+                    application workflow in a future backend stage.
+                </p>
+
+            </article>
+
+            <article class="dashboard-panel">
+
+                <div class="panel-heading">
+                    <h3>Account Information</h3>
+                    <a href="profile.html">View profile →</a>
+                </div>
+
+                <div class="dashboard-notice-list">
+
+                    <div class="dashboard-notice">
+                        <span class="notice-icon">♙</span>
+                        <div>
+                            <strong>Member name</strong>
+                            <p id="accountFullName">AfyaMicro Member</p>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-notice">
+                        <span class="notice-icon">☎</span>
+                        <div>
+                            <strong>Registered phone</strong>
+                            <p id="accountPhone">Not available</p>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-notice">
+                        <span class="notice-icon">✚</span>
+                        <div>
+                            <strong>Home pharmacy</strong>
+                            <p id="accountPharmacy">Not specified</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="dashboard-info-card">
+                    <h4>About this dashboard</h4>
+                    <p>
+                        This is a frontend demonstration. Wallet balances,
+                        contributions, claims and transactions are sample
+                        interface data and do not represent real insurance
+                        coverage or financial services.
+                    </p>
+                </div>
+
+            </article>
+
+        </section>
+
+        <section class="dashboard-extra-guide" id="dashboard-extra-guide">
+
+            <div class="dashboard-extra-heading">
+                <span>MEMBER RESOURCE CENTRE</span>
+                <h2>Getting the most from your dashboard</h2>
+                <p>Use your dashboard to explore and understand the different areas of the AfyaMicro member demonstration.</p>
+            </div>
+
+            <div class="dashboard-extra-grid">
+
+                <article class="dashboard-extra-card">
+                    <span>01</span>
+                    <h3>Manage your wallet</h3>
+                    <p>Explore your wallet to see how a member balance, contribution records and sample payment activity can be organised in one place.</p>
+                    <a href="wallet.html">Explore wallet →</a>
+                </article>
+
+                <article class="dashboard-extra-card">
+                    <span>02</span>
+                    <h3>Track contributions</h3>
+                    <p>Review the contributions section to understand how member deposits and contribution history can be presented.</p>
+                    <a href="contributions.html">View contributions →</a>
+                </article>
+
+                <article class="dashboard-extra-card">
+                    <span>03</span>
+                    <h3>Follow claim activity</h3>
+                    <p>Explore the claims section to see how healthcare expense submissions, references and sample statuses are displayed.</p>
+                    <a href="claims.html">Explore claims →</a>
+                </article>
+
+                <article class="dashboard-extra-card">
+                    <span>04</span>
+                    <h3>Stay informed</h3>
+                    <p>Check notifications for demonstration updates and explore how important account information could be communicated to members.</p>
+                    <a href="notifications.html">View notifications →</a>
+                </article>
+
+                <article class="dashboard-extra-card">
+                    <span>05</span>
+                    <h3>Keep your profile updated</h3>
+                    <p>Review your member profile and check that the demonstration account information displayed is correct.</p>
+                    <a href="profile.html">Review profile →</a>
+                </article>
+
+                <article class="dashboard-extra-card">
+                    <span>06</span>
+                    <h3>Find healthcare information</h3>
+                    <p>Visit the pharmacy directory to explore the available directory information and learn how to identify a suitable pharmacy.</p>
+                    <a href="../pharmacies.html">Explore pharmacies →</a>
+                </article>
+
+            </div>
+
+            <div class="dashboard-extra-notice">
+                <strong>Demonstration and account safety</strong>
+                <p>AfyaMicro Kampala is currently a frontend demonstration. Balances, contributions, claims and transactions are sample records stored in the browser. They do not provide active insurance coverage, process real payments or guarantee access to healthcare services. Avoid entering sensitive personal or medical information.</p>
+            </div>
+
+        </section>
+        <footer style="padding:30px 0 5px;text-align:center;color:#8A9997;font-size:10px;">
+            © <span id="dashboardYear">2026</span> AfyaMicro Kampala.
+            Frontend demonstration.
+        </footer>
+
+    </main>
+
+</div>
+
+<script src="../assets/js/dashboard.js"></script>
+
+</body>
+</html>
+
+

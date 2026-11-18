@@ -1,0 +1,282 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Manage your AfyaMicro contributions.">
+    <title>My Contributions | AfyaMicro Kampala</title>
+
+    <link rel="stylesheet" href="../assets/css/base.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="../assets/css/contributions.css">
+    <link rel="stylesheet" href="../assets/css/content-expansion.css">
+</head>
+
+<body class="dashboard-body">
+
+<div class="dashboard-layout">
+
+    <div class="dashboard-overlay" id="dashboardOverlay"></div>
+
+    <aside class="dashboard-sidebar" id="dashboardSidebar">
+        <a href="../index.html" class="dashboard-brand">
+            <img src="../assets/images/afyamicrologo.svg" alt="AfyaMicro logo">
+        </a>
+
+        <div class="sidebar-profile">
+            <div class="sidebar-avatar" id="sidebarAvatar">AM</div>
+            <div>
+                <strong id="sidebarUserName">AfyaMicro Member</strong>
+                <small>Member account</small>
+            </div>
+        </div>
+
+        <nav class="dashboard-nav">
+            <span class="nav-heading">MAIN MENU</span>
+            <a href="dashboard.html"><span>▦</span> Dashboard</a>
+            <a href="wallet.html"><span>◈</span> My Wallet</a>
+            <a href="contributions.html" class="active"><span>↗</span> Contributions</a>
+            <a href="claims.html"><span>＋</span> My Claims</a>
+            <a href="transactions.html"><span>⇄</span> Transactions</a>
+            <a href="notifications.html"><span>♧</span> Notifications</a>
+
+            <span class="nav-heading">ACCOUNT</span>
+            <a href="profile.html"><span>♙</span> My Profile</a>
+            <a href="settings.html"><span>⚙</span> Settings</a>
+            <a href="../pharmacies.html"><span>⌖</span> Pharmacies</a>
+            <a href="../how-it-works.html"><span>ⓘ</span> How It Works</a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <a href="../auth/login.html" class="logout-link">↪ Sign Out</a>
+        </div>
+    </aside>
+
+    <main class="dashboard-main">
+
+        <header class="dashboard-topbar">
+            <button class="dashboard-menu-toggle" id="dashboardMenuToggle"
+                    aria-label="Open navigation menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+
+            <div class="topbar-title">
+                <h2>Contributions</h2>
+                <p>Track your healthcare contributions</p>
+            </div>
+
+            <div class="topbar-user">
+                <div class="topbar-avatar" id="topbarAvatar">AM</div>
+                <span id="topbarUserName">AfyaMicro Member</span>
+            </div>
+        </header>
+
+        <div class="contributions-content">
+
+            <section class="contributions-heading">
+                <div>
+                    <span class="contribution-eyebrow">YOUR MEMBERSHIP</span>
+                    <h1>My Contributions</h1>
+                    <p>Review your contribution activity and make a demonstration contribution.</p>
+                </div>
+                <span class="contribution-demo-badge">DEMO MODE</span>
+            </section>
+
+            <section class="contribution-summary">
+
+                <article class="contribution-summary-card total-card">
+                    <div class="summary-card-icon">↗</div>
+                    <p>Total contributions</p>
+                    <h2 id="totalContributions">UGX 0</h2>
+                    <small>Recorded demonstration contributions</small>
+                </article>
+
+                <article class="contribution-summary-card">
+                    <div class="summary-card-icon">◈</div>
+                    <p>Available wallet balance</p>
+                    <h2 id="availableBalance">UGX 25,000</h2>
+                    <small>Demonstration wallet balance</small>
+                </article>
+
+                <article class="contribution-summary-card">
+                    <div class="summary-card-icon">▤</div>
+                    <p>Contribution records</p>
+                    <h2 id="contributionCount">0</h2>
+                    <small>Successful demo records</small>
+                </article>
+
+            </section>
+
+            <section class="contribution-notice">
+                <strong>Demonstration mode</strong>
+                <p>Contributions recorded here are simulations stored in this browser.
+                   No real money is transferred, and these records do not represent
+                   actual insurance premiums or proof of cover.</p>
+            </section>
+
+            <section class="contribution-main-grid">
+
+                <div class="contribution-panel">
+                    <div class="contribution-panel-heading">
+                        <div>
+                            <span class="contribution-eyebrow">ADD A CONTRIBUTION</span>
+                            <h2>Make a Contribution</h2>
+                            <p>Use your demonstration wallet balance.</p>
+                        </div>
+                        <span class="contribution-plus">＋</span>
+                    </div>
+
+                    <form id="contributionForm">
+
+                        <div class="contribution-balance-box">
+                            <span>Current available balance</span>
+                            <strong id="formWalletBalance">UGX 25,000</strong>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contributionAmount">Contribution amount (UGX)</label>
+                            <input type="number" id="contributionAmount"
+                                   name="amount" min="1" step="1"
+                                   placeholder="Enter contribution amount" required>
+                            <small class="contribution-hint">
+                                Enter a whole-number amount not exceeding your available balance.
+                            </small>
+                            <small id="contributionAmountError" class="contribution-error"></small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contributionNote">Contribution note (optional)</label>
+                            <textarea id="contributionNote" name="note"
+                                      rows="3" maxlength="120"
+                                      placeholder="e.g. Monthly contribution"></textarea>
+                        </div>
+
+                        <div class="contribution-confirmation">
+                            <span>Payment source</span>
+                            <strong>AfyaMicro demonstration wallet</strong>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block"
+                                id="contributionButton">
+                            Record Demonstration Contribution
+                        </button>
+
+                        <p id="contributionFeedback" class="contribution-feedback"
+                           role="status" aria-live="polite"></p>
+                    </form>
+                </div>
+
+                <div class="contribution-panel contribution-guide">
+                    <span class="contribution-eyebrow">CONTRIBUTION GUIDE</span>
+                    <h2>How contributions work</h2>
+
+                    <div class="guide-step">
+                        <span>01</span>
+                        <div>
+                            <h3>Check your wallet</h3>
+                            <p>Make sure your demonstration wallet has enough funds.</p>
+                        </div>
+                    </div>
+
+                    <div class="guide-step">
+                        <span>02</span>
+                        <div>
+                            <h3>Enter your amount</h3>
+                            <p>Choose the amount you want to record as a contribution.</p>
+                        </div>
+                    </div>
+
+                    <div class="guide-step">
+                        <span>03</span>
+                        <div>
+                            <h3>Confirm the record</h3>
+                            <p>The demonstration amount is deducted from your browser wallet balance.</p>
+                        </div>
+                    </div>
+
+                    <div class="contribution-tip">
+                        <strong>Keep track of your activity</strong>
+                        <p>Your recorded demonstration contributions appear in the history table below.</p>
+                    </div>
+                </div>
+
+            </section>
+
+            <section class="contribution-panel contribution-history">
+                <div class="contribution-panel-heading history-heading">
+                    <div>
+                        <span class="contribution-eyebrow">YOUR ACTIVITY</span>
+                        <h2>Contribution History</h2>
+                        <p>A record of your simulated contributions.</p>
+                    </div>
+                    <span class="history-count" id="historyCount">0 records</span>
+                </div>
+
+                <div class="contribution-table-wrap">
+                    <table class="contribution-table">
+                        <thead>
+                            <tr>
+                                <th>Reference</th>
+                                <th>Date</th>
+                                <th>Note</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="contributionHistory">
+                            <tr>
+                                <td colspan="5" class="empty-contributions">
+                                    No demonstration contributions recorded yet.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="activity-extra-guide" id="contributions-extra-guide">
+                <div class="activity-extra-heading">
+                    <span>MEMBER CONTRIBUTION GUIDE</span>
+                    <h2>Understanding your contributions</h2>
+                    <p>Learn how contribution records help members follow their demonstration account activity.</p>
+                </div>
+
+                <div class="activity-extra-grid">
+                    <article class="activity-extra-card">
+                        <h3>Record your contributions</h3>
+                        <p>Each simulated contribution is displayed in your activity history with its reference, date, note, amount and status.</p>
+                    </article>
+                    <article class="activity-extra-card">
+                        <h3>Review your history</h3>
+                        <p>Use the history table to review previously recorded demonstration contributions and understand how records are organised.</p>
+                    </article>
+                    <article class="activity-extra-card">
+                        <h3>Understand your wallet</h3>
+                        <p>In this demonstration, contributions are recorded separately from wallet deposits. Review your wallet and transaction pages to explore the sample activity.</p>
+                    </article>
+                    <article class="activity-extra-card">
+                        <h3>Keep your information safe</h3>
+                        <p>Never enter confidential banking information, payment PINs or sensitive personal details into this demonstration.</p>
+                    </article>
+                </div>
+
+                <div class="activity-extra-notice">
+                    <strong>Important</strong>
+                    <p>These are simulated contribution records saved in your browser. They are not real insurance premiums, payments or proof of active healthcare coverage.</p>
+                </div>
+            </section>
+            <footer class="contribution-footer">
+                <p>© <span id="contributionYear"></span> AfyaMicro Kampala. All rights reserved.</p>
+                <span>Frontend demonstration only</span>
+            </footer>
+
+        </div>
+    </main>
+</div>
+
+<script src="../assets/js/contributions.js"></script>
+</body>
+</html>
+

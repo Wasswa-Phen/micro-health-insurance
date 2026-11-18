@@ -1,0 +1,275 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transactions | AfyaMicro Kampala</title>
+    <link rel="stylesheet" href="../assets/css/base.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="../assets/css/transactions.css">
+    <link rel="stylesheet" href="../assets/css/content-expansion.css">
+</head>
+<body class="dashboard-page">
+
+<div class="dashboard-overlay" id="dashboardOverlay"></div>
+
+<aside class="dashboard-sidebar" id="dashboardSidebar">
+    <div class="dashboard-sidebar-brand">
+        <a href="../index.html">
+            <img src="../assets/images/afyamicrologo.svg" alt="AfyaMicro Kampala">
+        </a>
+    </div>
+
+    <div class="sidebar-user">
+        <div class="sidebar-avatar" id="sidebarAvatar">U</div>
+        <div>
+            <strong id="sidebarUserName">Member</strong>
+            <span>AfyaMicro Member</span>
+        </div>
+    </div>
+
+    <nav class="dashboard-nav">
+        <span class="sidebar-section-title">MAIN MENU</span>
+        <a href="dashboard.html" class="dashboard-nav-link">
+            <span class="nav-icon">⌂</span> Dashboard
+        </a>
+        <a href="wallet.html" class="dashboard-nav-link">
+            <span class="nav-icon">▣</span> My Wallet
+        </a>
+        <a href="contributions.html" class="dashboard-nav-link">
+            <span class="nav-icon">↗</span> Contributions
+        </a>
+        <a href="claims.html" class="dashboard-nav-link">
+            <span class="nav-icon">＋</span> Health Claims
+        </a>
+        <a href="transactions.html" class="dashboard-nav-link active">
+            <span class="nav-icon">⇄</span> Transactions
+        </a>
+        <a href="notifications.html" class="dashboard-nav-link">
+            <span class="nav-icon">♧</span> Notifications
+        </a>
+
+        <span class="sidebar-section-title">ACCOUNT</span>
+        <a href="profile.html" class="dashboard-nav-link">
+            <span class="nav-icon">◎</span> My Profile
+        </a>
+        <a href="settings.html" class="dashboard-nav-link">
+            <span class="nav-icon">⚙</span> Settings
+        </a>
+
+        <span class="sidebar-section-title">SUPPORT</span>
+        <a href="../pharmacies.html" class="dashboard-nav-link">
+            <span class="nav-icon">✚</span> Partner Pharmacies
+        </a>
+        <a href="../how-it-works.html" class="dashboard-nav-link">
+            <span class="nav-icon">ⓘ</span> How It Works
+        </a>
+        <a href="../contact.html" class="dashboard-nav-link">
+            <span class="nav-icon">✉</span> Contact Support
+        </a>
+    </nav>
+
+    <div class="sidebar-bottom">
+        <a href="../auth/login.html" class="dashboard-nav-link logout-link" id="logoutLink">
+            <span class="nav-icon">↪</span> Log Out
+        </a>
+        <p>AfyaMicro Kampala<br><span>Frontend demonstration</span></p>
+    </div>
+</aside>
+
+<main class="dashboard-main">
+    <header class="dashboard-topbar">
+        <div class="topbar-left">
+            <button class="dashboard-menu-toggle" id="dashboardMenuToggle" aria-label="Open menu">☰</button>
+            <div>
+                <h1>Transactions</h1>
+                <p>View your account activity in one place.</p>
+            </div>
+        </div>
+        <div class="topbar-user">
+            <div class="topbar-avatar" id="topbarAvatar">U</div>
+            <span id="topbarUserName">Member</span>
+        </div>
+    </header>
+
+    <div class="dashboard-content transactions-content">
+
+        <section class="transactions-welcome">
+            <div>
+                <span class="eyebrow">ACCOUNT ACTIVITY</span>
+                <h2>Your activity history</h2>
+                <p>Review wallet deposits, contributions and health claim submissions.</p>
+            </div>
+            <a href="wallet.html" class="btn btn-primary">＋ Add Funds</a>
+        </section>
+
+        <div class="demo-notice">
+            <strong>Demonstration records</strong>
+            <p>This page displays information saved in this browser. It does not show bank statements or confirm real payments.</p>
+        </div>
+
+        <section class="transaction-summary">
+            <article class="transaction-summary-card">
+                <div class="summary-icon deposit-icon">↓</div>
+                <div>
+                    <span>Total wallet deposits</span>
+                    <strong id="totalDeposits">UGX 0</strong>
+                    <small>Recorded demo deposits</small>
+                </div>
+            </article>
+
+            <article class="transaction-summary-card">
+                <div class="summary-icon contribution-icon">↗</div>
+                <div>
+                    <span>Total contributions</span>
+                    <strong id="totalContributions">UGX 0</strong>
+                    <small>Recorded demo contributions</small>
+                </div>
+            </article>
+
+            <article class="transaction-summary-card">
+                <div class="summary-icon claim-icon">＋</div>
+                <div>
+                    <span>Claims submitted</span>
+                    <strong id="totalClaims">0</strong>
+                    <small>Claim requests in this browser</small>
+                </div>
+            </article>
+
+            <article class="transaction-summary-card">
+                <div class="summary-icon activity-icon">⇄</div>
+                <div>
+                    <span>Total activities</span>
+                    <strong id="totalActivities">0</strong>
+                    <small>All recorded activity types</small>
+                </div>
+            </article>
+        </section>
+
+        <section class="transaction-panel">
+            <div class="transaction-panel-heading">
+                <div>
+                    <h3>Activity history</h3>
+                    <p>Search and filter your recorded activities.</p>
+                </div>
+                <span class="record-count" id="recordCount">0 records</span>
+            </div>
+
+            <div class="transaction-filters">
+                <div class="transaction-search">
+                    <label for="transactionSearch">Search activity</label>
+                    <input type="search" id="transactionSearch"
+                        placeholder="Search reference, description or provider...">
+                </div>
+
+                <div class="transaction-filter">
+                    <label for="activityFilter">Activity type</label>
+                    <select id="activityFilter">
+                        <option value="all">All activities</option>
+                        <option value="deposit">Wallet deposits</option>
+                        <option value="contribution">Contributions</option>
+                        <option value="claim">Health claims</option>
+                    </select>
+                </div>
+
+                <div class="transaction-filter">
+                    <label for="statusFilter">Status</label>
+                    <select id="statusFilter">
+                        <option value="all">All statuses</option>
+                        <option value="completed">Completed / Recorded</option>
+                        <option value="pending">Pending</option>
+                        <option value="rejected">Rejected</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <button type="button" class="btn btn-outline filter-reset" id="resetFilters">
+                    Reset
+                </button>
+            </div>
+
+            <div class="transaction-table-wrap">
+                <table class="transaction-table">
+                    <thead>
+                        <tr>
+                            <th>Reference</th>
+                            <th>Activity</th>
+                            <th>Description</th>
+                            <th>Date</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="transactionTableBody">
+                        <tr>
+                            <td colspan="6" class="transaction-loading">Loading your activity...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="transaction-mobile-list" id="transactionMobileList"></div>
+
+            <div class="transaction-empty hidden" id="transactionEmpty">
+                <div class="empty-icon">⇄</div>
+                <h3>No activity found</h3>
+                <p>There are no records matching your search or filter.</p>
+                <button type="button" class="btn btn-outline" id="emptyResetFilters">Clear filters</button>
+            </div>
+
+            <div class="transaction-footer">
+                <span id="transactionFooterText">Showing 0 records</span>
+                <span>Amounts displayed in UGX</span>
+            </div>
+        </section>
+
+        <div class="transaction-information">
+            <span class="information-icon">ⓘ</span>
+            <div>
+                <strong>Understanding your activity</strong>
+                <p>Wallet deposits add funds to your wallet. Contributions are recorded separately as deductions from your wallet. Claim submissions represent requests for review and are not wallet deductions on this page.</p>
+            </div>
+        </div>
+
+
+        <section class="activity-extra-guide" id="transactions-extra-guide">
+            <div class="activity-extra-heading">
+                <span>TRANSACTION INFORMATION</span>
+                <h2>Making sense of your activity</h2>
+                <p>Understand the different records displayed in your AfyaMicro demonstration account.</p>
+            </div>
+
+            <div class="activity-extra-grid">
+                <article class="activity-extra-card">
+                    <h3>Wallet deposits</h3>
+                    <p>These represent sample amounts added to the demonstration wallet. They do not confirm that money was received.</p>
+                </article>
+                <article class="activity-extra-card">
+                    <h3>Member contributions</h3>
+                    <p>These records illustrate how contributions can be tracked separately from wallet deposits.</p>
+                </article>
+                <article class="activity-extra-card">
+                    <h3>Healthcare claims</h3>
+                    <p>Claim records represent sample requests submitted through the demonstration. They do not confirm reimbursement or approval.</p>
+                </article>
+                <article class="activity-extra-card">
+                    <h3>Search and filtering</h3>
+                    <p>Use the search field and filters to explore records by activity type and status. Reset the filters to see all matching records again.</p>
+                </article>
+            </div>
+
+            <div class="activity-extra-notice">
+                <strong>Transaction security reminder</strong>
+                <p>This page is not a bank statement or payment receipt. No real payment gateway or financial institution is connected to these demonstration records.</p>
+            </div>
+        </section>
+    </div>
+</main>
+
+<script src="../assets/js/navigation.js"></script>
+<script src="../assets/js/transactions.js"></script>
+</body>
+</html>
+

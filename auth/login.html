@@ -1,0 +1,152 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In | AfyaMicro Kampala</title>
+    <link rel="stylesheet" href="../assets/css/base.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+    <link rel="stylesheet" href="../assets/css/auth.css">
+    <link rel="stylesheet" href="../assets/css/content-expansion.css">
+</head>
+<body class="auth-page">
+
+    <main class="auth-layout">
+        <section class="auth-brand-panel">
+            <a href="../index.html" class="auth-logo">
+                <img src="../assets/images/afyamicrologo.svg" alt="AfyaMicro logo">
+            </a>
+
+            <div class="brand-content">
+                <span class="auth-eyebrow">YOUR HEALTH. YOUR SECURITY.</span>
+                <h1>Healthcare protection made more accessible.</h1>
+                <p>
+                    Welcome to AfyaMicro Kampala. Take control of your
+                    health contributions and stay connected to your
+                    healthcare protection journey.
+                </p>
+
+                <div class="brand-feature">
+                    <span class="feature-icon">✓</span>
+                    <span>Manage your health contributions</span>
+                </div>
+                <div class="brand-feature">
+                    <span class="feature-icon">✓</span>
+                    <span>Keep track of your health wallet</span>
+                </div>
+                <div class="brand-feature">
+                    <span class="feature-icon">✓</span>
+                    <span>Find participating pharmacy information</span>
+                </div>
+            </div>
+
+            <div class="brand-bottom">
+                <span>AfyaMicro Kampala</span>
+                <span>Accessible healthcare, together.</span>
+            </div>
+        </section>
+
+        <section class="auth-form-panel">
+            <div class="auth-form-container">
+                <a href="../index.html" class="mobile-auth-logo">
+                    <img src="../assets/images/afyamicrologo.svg" alt="AfyaMicro">
+                </a>
+
+                <div class="auth-heading">
+                    <span class="form-eyebrow">WELCOME BACK</span>
+                    <h2>Sign in to your account</h2>
+                    <p>Enter your details below to access your account.</p>
+                </div>
+
+                <form id="loginForm" novalidate>
+                    <div class="form-group">
+                        <label for="loginPhone">Phone number</label>
+                        <div class="input-with-icon">
+                            <span class="input-prefix">+256</span>
+                            <input
+                                type="tel"
+                                id="loginPhone"
+                                name="phone"
+                                class="form-control"
+                                placeholder="7XXXXXXXX"
+                                maxlength="9"
+                                autocomplete="tel-national"
+                                required
+                            >
+                        </div>
+                        <small class="field-error" id="loginPhoneError"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <div class="password-wrapper">
+                            <input
+                                type="password"
+                                id="loginPassword"
+                                name="password"
+                                class="form-control"
+                                placeholder="Enter your password"
+                                autocomplete="current-password"
+                                required
+                            >
+                            <button type="button" class="password-toggle"
+                                data-password-toggle="loginPassword"
+                                aria-label="Show password">Show</button>
+                        </div>
+                        <small class="field-error" id="loginPasswordError"></small>
+                    </div>
+
+                    <div class="auth-options">
+                        <label class="remember-option">
+                            <input type="checkbox" id="rememberMe" name="remember">
+                            <span>Remember me</span>
+                        </label>
+                        <a href="#" id="forgotPasswordLink" class="text-link">
+                            Forgot password?
+                        </a>
+                    </div>
+
+                    <div id="loginFeedback" class="auth-feedback" aria-live="polite"></div>
+
+                    <button type="submit" class="btn btn-primary auth-submit">
+                        Sign In <span>→</span>
+                    </button>
+                </form>
+
+                <div class="auth-divider"><span>NEW TO AFYAMICRO?</span></div>
+
+                <p class="auth-switch">
+                    Don't have an account?
+                    <a href="register.html">Create an account</a>
+                </p>
+
+                <p class="auth-legal">
+                    By continuing, you agree to our
+                    <a href="../index.html">Terms of Use</a> and
+                    <a href="../index.html">Privacy Policy</a>.
+                </p>
+
+                <div class="auth-extra-content" id="login-guidance">
+    <h3>Keeping your account safe</h3>
+    <ul>
+        <li>Use a password that is difficult for others to guess.</li>
+        <li>Do not share your password with anyone.</li>
+        <li>Always use your own phone number when signing in.</li>
+    </ul>
+    <div class="auth-demo-notice">
+        <strong>Demonstration notice:</strong>
+        This is a frontend demonstration. Sign-in is not verified by a
+        secure authentication server. Do not use a real password.
+        No real insurance account is created.
+    </div>
+</div>
+<a href="../index.html" class="back-home">← Back to homepage</a>
+            </div>
+        </section>
+    </main>
+
+    <script src="../assets/js/auth.js"></script>
+</body>
+</html>
+

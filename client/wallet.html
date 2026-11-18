@@ -1,0 +1,289 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Manage your AfyaMicro demonstration wallet.">
+    <title>My Wallet | AfyaMicro Kampala</title>
+
+    <link rel="stylesheet" href="../assets/css/base.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="../assets/css/wallet.css">
+</head>
+
+<body class="dashboard-body">
+
+<div class="dashboard-layout">
+
+    <div class="dashboard-overlay" id="dashboardOverlay"></div>
+
+    <aside class="dashboard-sidebar" id="dashboardSidebar">
+        <a href="../index.html" class="dashboard-brand">
+            <img src="../assets/images/afyamicrologo.svg" alt="AfyaMicro logo">
+        </a>
+
+        <div class="sidebar-profile">
+            <div class="sidebar-avatar" id="sidebarAvatar">AM</div>
+            <div>
+                <strong id="sidebarUserName">AfyaMicro Member</strong>
+                <small>Member account</small>
+            </div>
+        </div>
+
+        <nav class="dashboard-nav">
+            <span class="nav-heading">MAIN MENU</span>
+            <a href="dashboard.html"><span>▦</span> Dashboard</a>
+            <a href="wallet.html" class="active"><span>◈</span> My Wallet</a>
+            <a href="contributions.html"><span>↗</span> Contributions</a>
+            <a href="claims.html"><span>＋</span> My Claims</a>
+            <a href="transactions.html"><span>⇄</span> Transactions</a>
+            <a href="notifications.html"><span>♧</span> Notifications</a>
+
+            <span class="nav-heading">ACCOUNT</span>
+            <a href="profile.html"><span>♙</span> My Profile</a>
+            <a href="settings.html"><span>⚙</span> Settings</a>
+            <a href="../pharmacies.html"><span>⌖</span> Pharmacies</a>
+            <a href="../how-it-works.html"><span>ⓘ</span> How It Works</a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <a href="../auth/login.html" class="logout-link">↪ Sign Out</a>
+        </div>
+    </aside>
+
+    <main class="dashboard-main">
+
+        <header class="dashboard-topbar">
+            <button class="dashboard-menu-toggle" id="dashboardMenuToggle"
+                    aria-label="Open navigation menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+
+            <div class="topbar-title">
+                <h2>My Wallet</h2>
+                <p>Manage your AfyaMicro wallet</p>
+            </div>
+
+            <div class="topbar-user">
+                <div class="topbar-avatar" id="topbarAvatar">AM</div>
+                <span id="topbarUserName">AfyaMicro Member</span>
+            </div>
+        </header>
+
+        <div class="wallet-content">
+
+            <section class="wallet-heading">
+                <div>
+                    <span class="wallet-eyebrow">YOUR FINANCIAL SPACE</span>
+                    <h1>My Wallet</h1>
+                    <p>View your available balance and manage demonstration deposits.</p>
+                </div>
+                <span class="demo-label">DEMO MODE</span>
+            </section>
+
+            <section class="wallet-overview">
+
+                <div class="wallet-balance-card">
+                    <div class="wallet-card-top">
+                        <span>Available wallet balance</span>
+                        <span class="wallet-card-icon">◈</span>
+                    </div>
+
+                    <h2 id="walletBalance">UGX 25,000</h2>
+                    <p>Demonstration balance</p>
+
+                    <div class="wallet-card-footer">
+                        <span>AfyaMicro Member Wallet</span>
+                        <span id="walletMemberName">Member</span>
+                    </div>
+                </div>
+
+                <div class="wallet-stat-card">
+                    <span class="wallet-stat-icon">↗</span>
+                    <p>Total demo deposits</p>
+                    <h3 id="totalDeposits">UGX 0</h3>
+                    <small>Recorded in this browser</small>
+                </div>
+
+                <div class="wallet-stat-card">
+                    <span class="wallet-stat-icon">⇄</span>
+                    <p>Wallet transactions</p>
+                    <h3 id="transactionCount">0</h3>
+                    <small>Demonstration records</small>
+                </div>
+
+            </section>
+
+            <section class="wallet-notice">
+                <strong>Important demonstration notice</strong>
+                <p>This is a frontend demonstration. Deposits are simulated in your browser.
+                   MTN, Airtel, Pesapal and Visa are displayed as payment options only.
+                   No payment is sent and no real money is collected.</p>
+            </section>
+
+            <section class="wallet-main-grid">
+
+                <div class="wallet-panel deposit-panel">
+                    <div class="wallet-panel-heading">
+                        <div>
+                            <span class="wallet-eyebrow">ADD FUNDS</span>
+                            <h2>Make a Deposit</h2>
+                            <p>Enter the amount you want to simulate depositing.</p>
+                        </div>
+                        <span class="deposit-icon">＋</span>
+                    </div>
+
+                    <form id="depositForm">
+
+                        <div class="form-group">
+                            <label for="depositAmount">Deposit amount (UGX)</label>
+                            <div class="amount-input-wrap">
+                                <span>UGX</span>
+                                <input type="number" id="depositAmount"
+                                       name="amount" min="1000" max="500000"
+                                       step="100" placeholder="Enter amount"
+                                       required>
+                            </div>
+                            <small class="field-hint">
+                                Minimum UGX 1,000 · Maximum UGX 500,000 ·
+                                Increments of UGX 100
+                            </small>
+                            <small class="wallet-error" id="amountError"></small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="paymentMethod">Choose payment method</label>
+
+                            <select id="paymentMethod" name="paymentMethod" required>
+                                <option value="">Select a payment method</option>
+                                <option value="MTN Mobile Money">MTN Mobile Money</option>
+                                <option value="Airtel Money">Airtel Money</option>
+                                <option value="Pesapal">Pesapal (Demo option)</option>
+                                <option value="Visa Card">Visa Card (Demo option)</option>
+                            </select>
+                            <small class="field-hint">
+                                All payment methods are simulated in this demonstration.
+                            </small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="paymentPhone">Payment phone number (optional)</label>
+                            <input type="tel" id="paymentPhone"
+                                   placeholder="e.g. 07XXXXXXXX"
+                                   maxlength="10">
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block"
+                                id="depositButton">
+                            Simulate Deposit
+                        </button>
+
+                        <p class="wallet-feedback" id="depositFeedback"
+                           role="status" aria-live="polite"></p>
+
+                    </form>
+                </div>
+
+                <div class="wallet-panel information-panel">
+                    <span class="wallet-eyebrow">WALLET INFORMATION</span>
+                    <h2>How your wallet works</h2>
+
+                    <div class="wallet-info-item">
+                        <span class="info-number">01</span>
+                        <div>
+                            <h3>Choose an amount</h3>
+                            <p>Enter an amount within the permitted demonstration limits.</p>
+                        </div>
+                    </div>
+
+                    <div class="wallet-info-item">
+                        <span class="info-number">02</span>
+                        <div>
+                            <h3>Select a payment option</h3>
+                            <p>Choose one of the displayed payment methods.</p>
+                        </div>
+                    </div>
+
+                    <div class="wallet-info-item">
+                        <span class="info-number">03</span>
+                        <div>
+                            <h3>View your wallet update</h3>
+                            <p>The demo wallet balance and transaction history will update locally.</p>
+                        </div>
+                    </div>
+
+                    <div class="wallet-security-note">
+                        <strong>Privacy reminder</strong>
+                        <p>Never enter your Mobile Money PIN, card PIN or password on this demo page.</p>
+                    </div>
+                </div>
+
+            </section>
+
+            <section class="wallet-panel transactions-panel">
+                <div class="wallet-panel-heading transaction-heading">
+                    <div>
+                        <span class="wallet-eyebrow">WALLET ACTIVITY</span>
+                        <h2>Recent Transactions</h2>
+                        <p>Your simulated wallet deposit records.</p>
+                    </div>
+                    <span class="transaction-count" id="transactionLabel">0 records</span>
+                </div>
+
+                <div class="wallet-table-wrap">
+                    <table class="wallet-table">
+                        <thead>
+                            <tr>
+                                <th>Transaction</th>
+                                <th>Payment method</th>
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="walletTransactions">
+                            <tr>
+                                <td colspan="5" class="empty-transactions">
+                                    No demonstration deposits recorded yet.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <footer class="wallet-footer">
+                <p>© <span id="walletYear"></span> AfyaMicro Kampala. All rights reserved.</p>
+                <span>Frontend demonstration only</span>
+            </footer>
+
+        </div>
+    </main>
+</div>
+
+<script src="../assets/js/wallet.js"></script>
+<script id="payment-method-from-link">
+document.addEventListener("DOMContentLoaded", function () {
+    const params = new URLSearchParams(window.location.search);
+    const requestedMethod = params.get("method");
+    const methodSelect = document.getElementById("paymentMethod");
+
+    if (methodSelect && requestedMethod) {
+        const validOption = Array.from(methodSelect.options)
+            .some(option => option.value === requestedMethod);
+
+        if (validOption) {
+            methodSelect.value = requestedMethod;
+            methodSelect.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+        }
+    }
+});
+</script>
+</body>
+</html>
+

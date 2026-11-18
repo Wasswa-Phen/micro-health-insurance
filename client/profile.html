@@ -1,0 +1,300 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile | AfyaMicro Kampala</title>
+
+    <link rel="stylesheet" href="../assets/css/base.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="../assets/css/profile.css">
+</head>
+<body class="dashboard-page">
+
+<div class="dashboard-overlay" id="dashboardOverlay"></div>
+
+<aside class="dashboard-sidebar" id="dashboardSidebar">
+
+    <div class="dashboard-sidebar-brand">
+        <a href="../index.html">
+            <img src="../assets/images/afyamicrologo.svg" alt="AfyaMicro Kampala">
+        </a>
+    </div>
+
+    <div class="sidebar-user">
+        <div class="sidebar-avatar" id="sidebarAvatar">U</div>
+        <div>
+            <strong id="sidebarUserName">Member</strong>
+            <span>AfyaMicro Member</span>
+        </div>
+    </div>
+
+    <nav class="dashboard-nav">
+        <span class="sidebar-section-title">MAIN MENU</span>
+
+        <a href="dashboard.html" class="dashboard-nav-link">
+            <span class="nav-icon">⌂</span> Dashboard
+        </a>
+
+        <a href="wallet.html" class="dashboard-nav-link">
+            <span class="nav-icon">▣</span> My Wallet
+        </a>
+
+        <a href="contributions.html" class="dashboard-nav-link">
+            <span class="nav-icon">↗</span> Contributions
+        </a>
+
+        <a href="claims.html" class="dashboard-nav-link">
+            <span class="nav-icon">＋</span> Health Claims
+        </a>
+
+        <a href="transactions.html" class="dashboard-nav-link">
+            <span class="nav-icon">⇄</span> Transactions
+        </a>
+
+        <a href="notifications.html" class="dashboard-nav-link">
+            <span class="nav-icon">♧</span> Notifications
+        </a>
+
+        <span class="sidebar-section-title">ACCOUNT</span>
+
+        <a href="profile.html" class="dashboard-nav-link active">
+            <span class="nav-icon">◎</span> My Profile
+        </a>
+
+        <a href="settings.html" class="dashboard-nav-link">
+            <span class="nav-icon">⚙</span> Settings
+        </a>
+
+        <span class="sidebar-section-title">SUPPORT</span>
+
+        <a href="../pharmacies.html" class="dashboard-nav-link">
+            <span class="nav-icon">✚</span> Partner Pharmacies
+        </a>
+
+        <a href="../how-it-works.html" class="dashboard-nav-link">
+            <span class="nav-icon">ⓘ</span> How It Works
+        </a>
+
+        <a href="../contact.html" class="dashboard-nav-link">
+            <span class="nav-icon">✉</span> Contact Support
+        </a>
+    </nav>
+
+    <div class="sidebar-bottom">
+        <a href="../auth/login.html" class="dashboard-nav-link logout-link" id="logoutLink">
+            <span class="nav-icon">↪</span> Log Out
+        </a>
+
+        <p>AfyaMicro Kampala<br><span>Frontend demonstration</span></p>
+    </div>
+</aside>
+
+<main class="dashboard-main">
+
+    <header class="dashboard-topbar">
+        <div class="topbar-left">
+            <button class="dashboard-menu-toggle" id="dashboardMenuToggle" aria-label="Open menu">☰</button>
+
+            <div>
+                <h1>My Profile</h1>
+                <p>Manage your personal account information.</p>
+            </div>
+        </div>
+
+        <div class="topbar-user">
+            <div class="topbar-avatar" id="topbarAvatar">U</div>
+            <span id="topbarUserName">Member</span>
+        </div>
+    </header>
+
+    <div class="dashboard-content profile-content">
+
+        <section class="profile-welcome">
+            <div>
+                <span class="eyebrow">ACCOUNT MANAGEMENT</span>
+                <h2>Personal profile</h2>
+                <p>Review and keep your AfyaMicro member information up to date.</p>
+            </div>
+        </section>
+
+        <div class="profile-demo-notice">
+            <strong>Browser demonstration profile</strong>
+            <p>Changes made here are saved in this browser only. This page is not connected to a live account server.</p>
+        </div>
+
+        <section class="profile-overview-card">
+            <div class="profile-overview-left">
+                <div class="profile-large-avatar" id="profileLargeAvatar">U</div>
+
+                <div class="profile-overview-details">
+                    <h3 id="profileDisplayName">Member Name</h3>
+                    <p id="profileDisplayPhone">Phone number not provided</p>
+                    <span class="profile-member-label">
+                        <span class="profile-online-dot"></span>
+                        AfyaMicro Member
+                    </span>
+                </div>
+            </div>
+
+            <div class="profile-overview-right">
+                <span>ACCOUNT TYPE</span>
+                <strong>Individual Member</strong>
+                <small>Demonstration account</small>
+            </div>
+        </section>
+
+        <div class="profile-layout">
+
+            <section class="profile-form-card">
+                <div class="profile-section-heading">
+                    <div>
+                        <h3>Personal information</h3>
+                        <p>Update the details associated with your account.</p>
+                    </div>
+                    <span class="profile-section-icon">◎</span>
+                </div>
+
+                <div class="profile-feedback" id="profileFeedback" role="status" aria-live="polite"></div>
+
+                <form id="profileForm" novalidate>
+
+                    <div class="profile-form-grid">
+
+                        <div class="form-group profile-full-width">
+                            <label for="fullName">Full name <span>*</span></label>
+                            <input
+                                type="text"
+                                id="fullName"
+                                class="form-control"
+                                placeholder="Enter your full name"
+                                maxlength="100"
+                                autocomplete="name"
+                                required
+                            >
+                            <small class="field-hint">Enter your name as you would like it displayed on your account.</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Ugandan phone number <span>*</span></label>
+                            <input
+                                type="tel"
+                                id="phone"
+                                class="form-control"
+                                placeholder="07XXXXXXXX"
+                                maxlength="10"
+                                autocomplete="tel"
+                                inputmode="numeric"
+                                required
+                            >
+                            <small class="field-hint">Format: 07XXXXXXXX</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="nin">National Identification Number</label>
+                            <input
+                                type="text"
+                                id="nin"
+                                class="form-control"
+                                placeholder="Enter NIN (optional)"
+                                maxlength="20"
+                                autocomplete="off"
+                            >
+                            <small class="field-hint">Optional demonstration field.</small>
+                        </div>
+
+                        <div class="form-group profile-full-width">
+                            <label for="homePharmacy">Preferred home pharmacy</label>
+                            <select id="homePharmacy" class="form-control">
+                                <option value="">Select your preferred division</option>
+                                <option value="Central">Central Division</option>
+                                <option value="Kawempe">Kawempe Division</option>
+                                <option value="Makindye">Makindye Division</option>
+                                <option value="Nakawa">Nakawa Division</option>
+                                <option value="Rubaga">Rubaga Division</option>
+                            </select>
+                            <small class="field-hint">Choose the division associated with your preferred pharmacy.</small>
+                        </div>
+
+                    </div>
+
+                    <div class="profile-form-actions">
+                        <button type="button" class="btn btn-outline" id="resetProfile">
+                            Cancel changes
+                        </button>
+
+                        <button type="submit" class="btn btn-primary" id="saveProfile">
+                            Save changes
+                        </button>
+                    </div>
+
+                </form>
+            </section>
+
+            <aside class="profile-side-column">
+
+                <div class="profile-info-card">
+                    <div class="profile-side-heading">
+                        <span class="profile-side-icon">✓</span>
+                        <h3>Account information</h3>
+                    </div>
+
+                    <div class="profile-info-row">
+                        <span>Account status</span>
+                        <strong class="demo-status">Demo account</strong>
+                    </div>
+
+                    <div class="profile-info-row">
+                        <span>Account type</span>
+                        <strong>Individual member</strong>
+                    </div>
+
+                    <div class="profile-info-row">
+                        <span>Phone number</span>
+                        <strong id="sidePhone">Not provided</strong>
+                    </div>
+
+                    <div class="profile-info-row">
+                        <span>Home pharmacy</span>
+                        <strong id="sidePharmacy">Not selected</strong>
+                    </div>
+                </div>
+
+                <div class="profile-security-card">
+                    <div class="profile-side-heading">
+                        <span class="profile-side-icon security-icon">⌑</span>
+                        <h3>Account security</h3>
+                    </div>
+
+                    <p>Your account details are stored locally in this browser for demonstration purposes.</p>
+
+                    <div class="security-note">
+                        <strong>Password management</strong>
+                        <span>Password changes are not available in this frontend demonstration.</span>
+                    </div>
+
+                    <a href="settings.html" class="profile-settings-link">
+                        View account settings →
+                    </a>
+                </div>
+
+                <div class="profile-support-card">
+                    <strong>Need assistance?</strong>
+                    <p>Contact the AfyaMicro support team for help with your account.</p>
+                    <a href="../contact.html">Contact support →</a>
+                </div>
+
+            </aside>
+
+        </div>
+
+    </div>
+</main>
+
+<script src="../assets/js/navigation.js"></script>
+<script src="../assets/js/profile.js"></script>
+
+</body>
+</html>
