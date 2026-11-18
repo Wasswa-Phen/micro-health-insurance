@@ -1,0 +1,306 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Submit and track your AfyaMicro demonstration healthcare claims.">
+    <title>My Claims | AfyaMicro Kampala</title>
+
+    <link rel="stylesheet" href="../assets/css/base.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="../assets/css/claims.css">
+    <link rel="stylesheet" href="../assets/css/content-expansion.css">
+</head>
+
+<body class="dashboard-body">
+<div class="dashboard-layout">
+
+    <div class="dashboard-overlay" id="dashboardOverlay"></div>
+
+    <aside class="dashboard-sidebar" id="dashboardSidebar">
+        <a href="../index.html" class="dashboard-brand">
+            <img src="../assets/images/afyamicrologo.svg" alt="AfyaMicro logo">
+        </a>
+
+        <div class="sidebar-profile">
+            <div class="sidebar-avatar" id="sidebarAvatar">AM</div>
+            <div>
+                <strong id="sidebarUserName">AfyaMicro Member</strong>
+                <small>Member account</small>
+            </div>
+        </div>
+
+        <nav class="dashboard-nav">
+            <span class="nav-heading">MAIN MENU</span>
+            <a href="dashboard.html"><span>▦</span> Dashboard</a>
+            <a href="wallet.html"><span>◈</span> My Wallet</a>
+            <a href="contributions.html"><span>↗</span> Contributions</a>
+            <a href="claims.html" class="active"><span>＋</span> My Claims</a>
+            <a href="transactions.html"><span>⇄</span> Transactions</a>
+            <a href="notifications.html"><span>♧</span> Notifications</a>
+
+            <span class="nav-heading">ACCOUNT</span>
+            <a href="profile.html"><span>♙</span> My Profile</a>
+            <a href="settings.html"><span>⚙</span> Settings</a>
+            <a href="../pharmacies.html"><span>⌖</span> Pharmacies</a>
+            <a href="../how-it-works.html"><span>ⓘ</span> How It Works</a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <a href="../auth/login.html" class="logout-link">↪ Sign Out</a>
+        </div>
+    </aside>
+
+    <main class="dashboard-main">
+
+        <header class="dashboard-topbar">
+            <button class="dashboard-menu-toggle" id="dashboardMenuToggle"
+                    aria-label="Open navigation menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+
+            <div class="topbar-title">
+                <h2>My Claims</h2>
+                <p>Submit and track healthcare claims</p>
+            </div>
+
+            <div class="topbar-user">
+                <div class="topbar-avatar" id="topbarAvatar">AM</div>
+                <span id="topbarUserName">AfyaMicro Member</span>
+            </div>
+        </header>
+
+        <div class="claims-content">
+
+            <section class="claims-heading">
+                <div>
+                    <span class="claims-eyebrow">HEALTHCARE SUPPORT</span>
+                    <h1>My Claims</h1>
+                    <p>Submit a claim and keep track of your demonstration records.</p>
+                </div>
+                <span class="claims-demo-badge">DEMO MODE</span>
+            </section>
+
+            <section class="claims-notice">
+                <strong>Demonstration only</strong>
+                <p>Claims submitted here are stored in your browser as sample records.
+                   They are not sent to a pharmacy, insurer or administrator and do not
+                   represent an approved medical benefit or reimbursement.</p>
+            </section>
+
+            <section class="claims-summary">
+                <article class="claim-stat-card">
+                    <span class="claim-stat-icon">▤</span>
+                    <p>Total claims</p>
+                    <h2 id="totalClaims">0</h2>
+                    <small>Demonstration submissions</small>
+                </article>
+
+                <article class="claim-stat-card">
+                    <span class="claim-stat-icon pending-icon">◷</span>
+                    <p>Pending review</p>
+                    <h2 id="pendingClaims">0</h2>
+                    <small>Sample status only</small>
+                </article>
+
+                <article class="claim-stat-card">
+                    <span class="claim-stat-icon approved-icon">✓</span>
+                    <p>Approved</p>
+                    <h2 id="approvedClaims">0</h2>
+                    <small>No real approvals</small>
+                </article>
+
+                <article class="claim-stat-card">
+                    <span class="claim-stat-icon rejected-icon">×</span>
+                    <p>Rejected</p>
+                    <h2 id="rejectedClaims">0</h2>
+                    <small>No real decisions</small>
+                </article>
+            </section>
+
+            <section class="claims-main-grid">
+
+                <div class="claims-panel">
+                    <div class="claims-panel-heading">
+                        <div>
+                            <span class="claims-eyebrow">NEW SUBMISSION</span>
+                            <h2>Submit a Claim</h2>
+                            <p>Provide the details of your healthcare expense.</p>
+                        </div>
+                        <span class="claim-plus">＋</span>
+                    </div>
+
+                    <form id="claimForm">
+
+                        <div class="form-group">
+                            <label for="claimType">Claim category</label>
+                            <select id="claimType" required>
+                                <option value="">Select claim category</option>
+                                <option value="Prescription">Prescription / Medicine</option>
+                                <option value="Consultation">Medical consultation</option>
+                                <option value="Laboratory">Laboratory services</option>
+                                <option value="Other">Other healthcare expense</option>
+                            </select>
+                            <small class="claim-field-hint">Choose the category that best describes your expense.</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="claimAmount">Claim amount (UGX)</label>
+                            <input type="number" id="claimAmount" min="500"
+                                   step="1" placeholder="Enter claim amount" required>
+                            <small class="claim-field-hint">Minimum claim amount: UGX 500.</small>
+                            <small id="claimAmountError" class="claim-error"></small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="claimPharmacy">Pharmacy or healthcare provider</label>
+                            <input type="text" id="claimPharmacy" maxlength="100"
+                                   placeholder="Enter provider name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="claimDate">Date of healthcare service</label>
+                            <input type="date" id="claimDate" required>
+                            <small id="claimDateError" class="claim-error"></small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="claimDescription">Description</label>
+                            <textarea id="claimDescription" rows="4" maxlength="500"
+                                      placeholder="Explain the healthcare service or expense..."
+                                      required></textarea>
+                            <small class="claim-field-hint">Do not enter sensitive medical details in this demonstration.</small>
+                        </div>
+
+                        <label class="claim-checkbox">
+                            <input type="checkbox" id="claimDeclaration" required>
+                            <span>I confirm that the information entered is for demonstration purposes.</span>
+                        </label>
+
+                        <button type="submit" class="btn btn-primary btn-block">
+                            Submit Demonstration Claim
+                        </button>
+
+                        <p id="claimFeedback" class="claim-feedback"
+                           role="status" aria-live="polite"></p>
+                    </form>
+                </div>
+
+                <div class="claims-panel claims-guide">
+                    <span class="claims-eyebrow">CLAIM PROCESS</span>
+                    <h2>How claims work</h2>
+
+                    <div class="claim-guide-step">
+                        <span>01</span>
+                        <div>
+                            <h3>Enter claim details</h3>
+                            <p>Choose a category and provide the amount and provider information.</p>
+                        </div>
+                    </div>
+
+                    <div class="claim-guide-step">
+                        <span>02</span>
+                        <div>
+                            <h3>Submit your claim</h3>
+                            <p>Your demonstration submission is saved in this browser.</p>
+                        </div>
+                    </div>
+
+                    <div class="claim-guide-step">
+                        <span>03</span>
+                        <div>
+                            <h3>Track its status</h3>
+                            <p>View the sample status assigned to your demonstration record.</p>
+                        </div>
+                    </div>
+
+                    <div class="claim-help-note">
+                        <strong>Before submitting</strong>
+                        <p>In a live insurance system, claims would require verification by authorised staff and supporting documentation. That process is not connected here.</p>
+                    </div>
+                </div>
+
+            </section>
+
+            <section class="claims-panel claims-history">
+                <div class="claims-panel-heading history-heading">
+                    <div>
+                        <span class="claims-eyebrow">CLAIM ACTIVITY</span>
+                        <h2>Claim History</h2>
+                        <p>Your locally saved demonstration submissions.</p>
+                    </div>
+                    <span class="claims-record-count" id="claimRecordCount">0 records</span>
+                </div>
+
+                <div class="claims-table-wrap">
+                    <table class="claims-table">
+                        <thead>
+                            <tr>
+                                <th>Reference</th>
+                                <th>Category</th>
+                                <th>Provider</th>
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="claimsHistory">
+                            <tr>
+                                <td colspan="6" class="empty-claims">
+                                    No demonstration claims submitted yet.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="claims-extra-content" id="claims-extra-guidance">
+                <div class="claims-extra-heading">
+                    <span class="claims-eyebrow">MEMBER INFORMATION</span>
+                    <h2>Understanding your claim records</h2>
+                    <p>Use these guidelines when exploring the AfyaMicro claims demonstration.</p>
+                </div>
+
+                <div class="claims-extra-grid">
+                    <article class="claims-extra-card">
+                        <h3>Keep accurate records</h3>
+                        <p>Enter clear information about the healthcare expense, service date, provider and amount. Accurate sample entries make it easier to understand how a claims system could organise submissions.</p>
+                    </article>
+
+                    <article class="claims-extra-card">
+                        <h3>Supporting documents</h3>
+                        <p>A real insurance process may require receipts, prescriptions or other supporting documents. This demonstration does not upload, verify or process those documents.</p>
+                    </article>
+
+                    <article class="claims-extra-card">
+                        <h3>Understand claim status</h3>
+                        <p>A status displayed in this application is a sample record only. It does not mean an insurer or healthcare provider has reviewed or approved a claim.</p>
+                    </article>
+
+                    <article class="claims-extra-card">
+                        <h3>Protect your privacy</h3>
+                        <p>Avoid entering real medical histories, sensitive personal information or confidential financial details into this demonstration.</p>
+                    </article>
+                </div>
+
+                <div class="claims-extra-notice">
+                    <strong>Important reminder</strong>
+                    <p>AfyaMicro Kampala is currently a frontend demonstration. No claim is sent to an insurer, pharmacy or healthcare provider, and no reimbursement or medical benefit is provided.</p>
+                </div>
+            </section>
+            <footer class="claims-footer">
+                <p>© <span id="claimsYear"></span> AfyaMicro Kampala. All rights reserved.</p>
+                <span>Frontend demonstration only</span>
+            </footer>
+
+        </div>
+    </main>
+</div>
+
+<script src="../assets/js/claims.js"></script>
+</body>
+</html>
+

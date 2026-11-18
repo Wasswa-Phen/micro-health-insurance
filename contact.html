@@ -1,0 +1,296 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Contact AfyaMicro Kampala for platform enquiries and support.">
+    <title>Contact Us | AfyaMicro Kampala</title>
+
+    <link rel="stylesheet" href="assets/css/base.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <link rel="stylesheet" href="assets/css/about-contact.css">
+    <link rel="stylesheet" href="assets/css/content-expansion.css">
+</head>
+
+<body>
+
+<header class="site-header">
+    <div class="container header-inner">
+        <a href="index.html" class="brand-logo">
+            <img src="assets/images/afyamicrologo.svg" alt="AfyaMicro Kampala">
+        </a>
+
+        <button class="menu-toggle" id="menuToggle"
+                aria-label="Open navigation menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+
+        <nav class="nav-links" id="mainNav">
+            <a href="index.html">Home</a>
+            <a href="how-it-works.html">How It Works</a>
+            <a href="pharmacies.html">Partner Pharmacies</a>
+            <a href="about.html">About Us</a>
+            <a href="contact.html" class="active">Contact</a>
+        </nav>
+
+        <div class="header-actions">
+            <a href="auth/login.html" class="btn btn-outline">Sign In</a>
+            <a href="auth/register.html" class="btn btn-primary">Get Covered</a>
+        </div>
+    </div>
+</header>
+
+<main>
+
+<section class="section contact-hero">
+    <div class="container section-heading">
+        <span class="badge">We are here to help</span>
+        <h1 class="section-title">Let's talk about your healthcare experience.</h1>
+        <p class="section-subtitle">
+            Have a question about AfyaMicro Kampala?
+            Send us an enquiry using the form below.
+        </p>
+    </div>
+</section>
+
+<section class="section contact-main">
+    <div class="container contact-grid">
+
+        <div class="contact-information">
+            <span class="badge">Get in touch</span>
+            <h2 class="section-title">We would love to hear from you.</h2>
+
+            <p>
+                Whether you have a question about the platform,
+                the pharmacy directory or a possible partnership,
+                use our enquiry form.
+            </p>
+
+            <div class="contact-info-card">
+                <div class="contact-info-icon">✉</div>
+                <div>
+                    <h3>General enquiries</h3>
+                    <p>Use the enquiry form to send your question.</p>
+                </div>
+            </div>
+
+            <div class="contact-info-card">
+                <div class="contact-info-icon">✚</div>
+                <div>
+                    <h3>Pharmacy partnerships</h3>
+                    <p>Contact us about participating pharmacy enquiries.</p>
+                </div>
+            </div>
+
+            <div class="contact-info-card">
+                <div class="contact-info-icon">◷</div>
+                <div>
+                    <h3>Platform support</h3>
+                    <p>Send us feedback about the AfyaMicro experience.</p>
+                </div>
+            </div>
+
+            <div class="contact-note">
+                <strong>Demonstration notice</strong>
+                <p>
+                    This contact interface is part of the frontend
+                    demonstration. It is not connected to a live
+                    support mailbox.
+                </p>
+            </div>
+        </div>
+
+        <div class="contact-form-wrapper">
+            <div class="form-header">
+                <span class="badge">Send an enquiry</span>
+                <h2>How can we help?</h2>
+                <p>Complete the details below.</p>
+            </div>
+
+            <form id="contactForm" class="contact-form" novalidate>
+
+                <div class="form-group">
+                    <label for="contactName">Full name</label>
+                    <input class="form-control" type="text"
+                           id="contactName" name="name"
+                           placeholder="Enter your full name" required>
+                    <small class="field-error" id="nameError"></small>
+                </div>
+
+                <div class="form-group">
+                    <label for="contactEmail">Email address</label>
+                    <input class="form-control" type="email"
+                           id="contactEmail" name="email"
+                           placeholder="example@email.com" required>
+                    <small class="field-error" id="emailError"></small>
+                </div>
+
+                <div class="form-group">
+                    <label for="contactSubject">Enquiry subject</label>
+                    <select class="form-control" id="contactSubject"
+                            name="subject" required>
+                        <option value="">Select an enquiry subject</option>
+                        <option value="General enquiry">General enquiry</option>
+                        <option value="Account support">Account support</option>
+                        <option value="Pharmacy partnership">Pharmacy partnership</option>
+                        <option value="Payment enquiry">Payment enquiry</option>
+                        <option value="Feedback">Feedback or suggestion</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <small class="field-error" id="subjectError"></small>
+                </div>
+
+                <div class="form-group">
+                    <label for="contactMessage">Your message</label>
+                    <textarea class="form-control" id="contactMessage"
+                              name="message" rows="5"
+                              placeholder="Write your message here..."
+                              required></textarea>
+                    <small class="field-error" id="messageError"></small>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">
+                    Submit Enquiry
+                </button>
+
+                <div class="form-feedback" id="formFeedback"
+                     role="status" aria-live="polite"></div>
+
+                <p class="form-disclaimer">
+                    Demonstration only: submitting this form does not
+                    send an email or create a support ticket.
+                </p>
+            </form>
+        </div>
+
+    </div>
+</section>
+
+<section class="section contact-bottom">
+    <div class="container section-heading">
+        <span class="badge">Explore more</span>
+        <h2 class="section-title">Discover AfyaMicro Kampala</h2>
+        <p class="section-subtitle">
+            Learn more about the platform and how its proposed
+            healthcare experience works.
+        </p>
+        <a href="how-it-works.html" class="btn btn-primary">How It Works</a>
+    </div>
+</section>
+
+</main>
+
+<!-- CONTACT CONTENT EXPANSION -->
+<section class="contact-guidance section" id="contact-guidance">
+    <div class="container">
+        <div class="section-heading">
+            <span class="badge">Contact information</span>
+            <h2 class="section-title">How can we assist you?</h2>
+            <p class="section-subtitle">
+                Choose the type of enquiry that best describes what you would
+                like to know about the AfyaMicro Kampala demonstration.
+            </p>
+        </div>
+
+        <div class="contact-guidance-grid">
+            <article class="contact-guidance-card">
+                <h3>General enquiries</h3>
+                <p>
+                    Ask questions about the purpose of AfyaMicro, its proposed
+                    services and how the platform is intended to work.
+                </p>
+            </article>
+            <article class="contact-guidance-card">
+                <h3>Pharmacy partnerships</h3>
+                <p>
+                    Make an enquiry about the proposed pharmacy directory and
+                    possible future collaboration with healthcare providers.
+                </p>
+            </article>
+            <article class="contact-guidance-card">
+                <h3>Platform support</h3>
+                <p>
+                    Report difficulties navigating the demonstration, accessing
+                    a page or understanding a displayed feature.
+                </p>
+            </article>
+        </div>
+
+        <div class="contact-guidance-grid">
+            <article class="contact-guidance-card">
+                <h3>What to include in your enquiry</h3>
+                <ul>
+                    <li>A clear subject for your message</li>
+                    <li>A brief explanation of your question</li>
+                    <li>The page or feature you are asking about</li>
+                    <li>Relevant details that help explain the issue</li>
+                </ul>
+            </article>
+            <article class="contact-guidance-card">
+                <h3>What happens next?</h3>
+                <p>
+                    In a fully implemented version, enquiries could be received,
+                    reviewed and directed to the appropriate support team.
+                    This demonstration does not provide that live service.
+                </p>
+            </article>
+        </div>
+
+        <div class="content-expansion-note">
+            <strong>Important:</strong>
+            The contact form is part of a frontend demonstration. Submitting it
+            does not send an email, create a support ticket or guarantee a response.
+            Do not enter passwords, payment details or other confidential information.
+        </div>
+    </div>
+</section>
+<footer class="site-footer">
+    <div class="container">
+        <div class="footer-grid">
+
+            <div class="footer-brand">
+                <a href="index.html">
+                    <img src="assets/images/afyamicrologo.svg" alt="AfyaMicro Kampala">
+                </a>
+                <p>
+                    Making healthcare preparation simpler through
+                    accessible digital health wallet experiences.
+                </p>
+            </div>
+
+            <div class="footer-column">
+                <h3>Explore</h3>
+                <a href="index.html">Home</a>
+                <a href="how-it-works.html">How It Works</a>
+                <a href="pharmacies.html">Partner Pharmacies</a>
+            </div>
+
+            <div class="footer-column">
+                <h3>Company</h3>
+                <a href="about.html">About Us</a>
+                <a href="contact.html">Contact</a>
+            </div>
+
+            <div class="footer-column">
+                <h3>Account</h3>
+                <a href="auth/login.html">Sign In</a>
+                <a href="auth/register.html">Register</a>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; <span id="currentYear"></span> AfyaMicro Kampala. All rights reserved.</p>
+            <p>Healthcare preparation, made simpler.</p>
+        </div>
+    </div>
+</footer>
+
+<script src="assets/js/navigation.js"></script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/contact.js"></script>
+
+</body>
+</html>
+

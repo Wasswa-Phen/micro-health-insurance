@@ -1,0 +1,396 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings | AfyaMicro Kampala</title>
+
+    <link rel="stylesheet" href="../assets/css/base.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="../assets/css/settings.css">
+</head>
+<body class="dashboard-page">
+
+<div class="dashboard-overlay" id="dashboardOverlay"></div>
+
+<aside class="dashboard-sidebar" id="dashboardSidebar">
+    <div class="dashboard-sidebar-brand">
+        <a href="../index.html">
+            <img src="../assets/images/afyamicrologo.svg" alt="AfyaMicro Kampala">
+        </a>
+    </div>
+
+    <div class="sidebar-user">
+        <div class="sidebar-avatar" id="sidebarAvatar">U</div>
+        <div>
+            <strong id="sidebarUserName">Member</strong>
+            <span>AfyaMicro Member</span>
+        </div>
+    </div>
+
+    <nav class="dashboard-nav">
+        <span class="sidebar-section-title">MAIN MENU</span>
+
+        <a href="dashboard.html" class="dashboard-nav-link">
+            <span class="nav-icon">⌂</span> Dashboard
+        </a>
+        <a href="wallet.html" class="dashboard-nav-link">
+            <span class="nav-icon">▣</span> My Wallet
+        </a>
+        <a href="contributions.html" class="dashboard-nav-link">
+            <span class="nav-icon">↗</span> Contributions
+        </a>
+        <a href="claims.html" class="dashboard-nav-link">
+            <span class="nav-icon">＋</span> Health Claims
+        </a>
+        <a href="transactions.html" class="dashboard-nav-link">
+            <span class="nav-icon">⇄</span> Transactions
+        </a>
+        <a href="notifications.html" class="dashboard-nav-link">
+            <span class="nav-icon">♧</span> Notifications
+        </a>
+
+        <span class="sidebar-section-title">ACCOUNT</span>
+
+        <a href="profile.html" class="dashboard-nav-link">
+            <span class="nav-icon">◎</span> My Profile
+        </a>
+        <a href="settings.html" class="dashboard-nav-link active">
+            <span class="nav-icon">⚙</span> Settings
+        </a>
+
+        <span class="sidebar-section-title">SUPPORT</span>
+
+        <a href="../pharmacies.html" class="dashboard-nav-link">
+            <span class="nav-icon">✚</span> Partner Pharmacies
+        </a>
+        <a href="../how-it-works.html" class="dashboard-nav-link">
+            <span class="nav-icon">ⓘ</span> How It Works
+        </a>
+        <a href="../contact.html" class="dashboard-nav-link">
+            <span class="nav-icon">✉</span> Contact Support
+        </a>
+    </nav>
+
+    <div class="sidebar-bottom">
+        <a href="../auth/login.html" class="dashboard-nav-link logout-link" id="logoutLink">
+            <span class="nav-icon">↪</span> Log Out
+        </a>
+        <p>AfyaMicro Kampala<br><span>Frontend demonstration</span></p>
+    </div>
+</aside>
+
+<main class="dashboard-main">
+
+    <header class="dashboard-topbar">
+        <div class="topbar-left">
+            <button class="dashboard-menu-toggle" id="dashboardMenuToggle" aria-label="Open menu">☰</button>
+            <div>
+                <h1>Settings</h1>
+                <p>Manage your account preferences.</p>
+            </div>
+        </div>
+
+        <div class="topbar-user">
+            <div class="topbar-avatar" id="topbarAvatar">U</div>
+            <span id="topbarUserName">Member</span>
+        </div>
+    </header>
+
+    <div class="dashboard-content settings-content">
+
+        <section class="settings-welcome">
+            <span class="eyebrow">PERSONAL PREFERENCES</span>
+            <h2>Account settings</h2>
+            <p>Customise how you use and interact with AfyaMicro Kampala.</p>
+        </section>
+
+        <div class="settings-demo-notice">
+            <strong>Frontend demonstration settings</strong>
+            <p>Your preferences are saved in this browser only. Notification delivery, password management and server-side security are not connected.</p>
+        </div>
+
+        <div class="settings-feedback" id="settingsFeedback" role="status" aria-live="polite"></div>
+
+        <div class="settings-layout">
+
+            <nav class="settings-navigation" aria-label="Settings sections">
+                <a href="#accountPreferences" class="settings-nav-item active">
+                    <span>◎</span> Account preferences
+                </a>
+                <a href="#notificationPreferences" class="settings-nav-item">
+                    <span>♧</span> Notifications
+                </a>
+                <a href="#displayPreferences" class="settings-nav-item">
+                    <span>◐</span> Display preferences
+                </a>
+                <a href="#privacyPreferences" class="settings-nav-item">
+                    <span>⌑</span> Privacy and security
+                </a>
+                <a href="#sessionPreferences" class="settings-nav-item">
+                    <span>↪</span> Session settings
+                </a>
+            </nav>
+
+            <div class="settings-sections">
+
+                <!-- ACCOUNT PREFERENCES -->
+                <section class="settings-card" id="accountPreferences">
+                    <div class="settings-card-heading">
+                        <div>
+                            <h3>Account preferences</h3>
+                            <p>Choose how your account preferences should be displayed.</p>
+                        </div>
+                        <span class="settings-heading-icon">◎</span>
+                    </div>
+
+                    <div class="settings-field">
+                        <div class="settings-field-info">
+                            <strong>Preferred contact method</strong>
+                            <span>Choose your preferred way to receive account communications.</span>
+                        </div>
+
+                        <select id="contactMethod" class="settings-select">
+                            <option value="phone">Phone</option>
+                            <option value="email">Email</option>
+                            <option value="both">Both phone and email</option>
+                        </select>
+                    </div>
+
+                    <div class="settings-field">
+                        <div class="settings-field-info">
+                            <strong>Preferred language</strong>
+                            <span>Choose the language for the demonstration interface.</span>
+                        </div>
+
+                        <select id="preferredLanguage" class="settings-select">
+                            <option value="English">English</option>
+                            <option value="Luganda">Luganda (future interface option)</option>
+                        </select>
+                    </div>
+
+                    <div class="settings-field">
+                        <div class="settings-field-info">
+                            <strong>Time zone</strong>
+                            <span>Used when displaying dates and times.</span>
+                        </div>
+
+                        <select id="timeZone" class="settings-select">
+                            <option value="Africa/Kampala">East Africa Time (Kampala)</option>
+                            <option value="UTC">Coordinated Universal Time (UTC)</option>
+                        </select>
+                    </div>
+                </section>
+
+                <!-- NOTIFICATION PREFERENCES -->
+                <section class="settings-card" id="notificationPreferences">
+                    <div class="settings-card-heading">
+                        <div>
+                            <h3>Notification preferences</h3>
+                            <p>Choose the types of notifications you would prefer to receive.</p>
+                        </div>
+                        <span class="settings-heading-icon">♧</span>
+                    </div>
+
+                    <div class="settings-toggle-row">
+                        <div class="settings-field-info">
+                            <strong>Account notifications</strong>
+                            <span>Updates about your member account and profile.</span>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="accountNotifications">
+                            <span class="switch-slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="settings-toggle-row">
+                        <div class="settings-field-info">
+                            <strong>Wallet notifications</strong>
+                            <span>Demonstration updates about wallet activity.</span>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="walletNotifications">
+                            <span class="switch-slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="settings-toggle-row">
+                        <div class="settings-field-info">
+                            <strong>Contribution notifications</strong>
+                            <span>Updates about recorded contributions.</span>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="contributionNotifications">
+                            <span class="switch-slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="settings-toggle-row">
+                        <div class="settings-field-info">
+                            <strong>Health claim notifications</strong>
+                            <span>Updates about submitted demonstration claims.</span>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="claimNotifications">
+                            <span class="switch-slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="settings-toggle-row">
+                        <div class="settings-field-info">
+                            <strong>Email notifications preference</strong>
+                            <span>Preference for future email communication.</span>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="emailNotifications">
+                            <span class="switch-slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="settings-toggle-row">
+                        <div class="settings-field-info">
+                            <strong>SMS notifications preference</strong>
+                            <span>Preference for future SMS communication.</span>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="smsNotifications">
+                            <span class="switch-slider"></span>
+                        </label>
+                    </div>
+                </section>
+
+                <!-- DISPLAY PREFERENCES -->
+                <section class="settings-card" id="displayPreferences">
+                    <div class="settings-card-heading">
+                        <div>
+                            <h3>Display preferences</h3>
+                            <p>Choose how the demonstration interface should appear.</p>
+                        </div>
+                        <span class="settings-heading-icon">◐</span>
+                    </div>
+
+                    <div class="settings-field">
+                        <div class="settings-field-info">
+                            <strong>Colour theme</strong>
+                            <span>Choose your preferred appearance.</span>
+                        </div>
+
+                        <select id="colourTheme" class="settings-select">
+                            <option value="light">Light theme</option>
+                            <option value="dark">Dark theme (preference only)</option>
+                            <option value="system">System default (preference only)</option>
+                        </select>
+                    </div>
+
+                    <div class="settings-field">
+                        <div class="settings-field-info">
+                            <strong>Dashboard compact view</strong>
+                            <span>Preference for a more compact dashboard layout.</span>
+                        </div>
+
+                        <label class="switch">
+                            <input type="checkbox" id="compactView">
+                            <span class="switch-slider"></span>
+                        </label>
+                    </div>
+                </section>
+
+                <!-- PRIVACY AND SECURITY -->
+                <section class="settings-card" id="privacyPreferences">
+                    <div class="settings-card-heading">
+                        <div>
+                            <h3>Privacy and security</h3>
+                            <p>Review the privacy and security options available in this demonstration.</p>
+                        </div>
+                        <span class="settings-heading-icon">⌑</span>
+                    </div>
+
+                    <div class="settings-security-message">
+                        <strong>Browser-based demonstration</strong>
+                        <p>This project currently stores demonstration profile and preference information in your browser. It does not use server-side authentication or encryption.</p>
+                    </div>
+
+                    <div class="settings-field">
+                        <div class="settings-field-info">
+                            <strong>Password management</strong>
+                            <span>Password changes require a secure authentication service, which is not connected.</span>
+                        </div>
+                        <span class="unavailable-label">Not available</span>
+                    </div>
+
+                    <div class="settings-field">
+                        <div class="settings-field-info">
+                            <strong>Two-factor authentication</strong>
+                            <span>SMS or authenticator verification is not connected.</span>
+                        </div>
+                        <span class="unavailable-label">Not available</span>
+                    </div>
+
+                    <div class="settings-field">
+                        <div class="settings-field-info">
+                            <strong>Personal information</strong>
+                            <span>Review the information saved in your demonstration profile.</span>
+                        </div>
+                        <a href="profile.html" class="settings-text-link">View profile →</a>
+                    </div>
+                </section>
+
+                <!-- SESSION SETTINGS -->
+                <section class="settings-card" id="sessionPreferences">
+                    <div class="settings-card-heading">
+                        <div>
+                            <h3>Session settings</h3>
+                            <p>Manage your current demonstration session.</p>
+                        </div>
+                        <span class="settings-heading-icon">↪</span>
+                    </div>
+
+                    <div class="settings-field">
+                        <div class="settings-field-info">
+                            <strong>Remember me preference</strong>
+                            <span>Controls the demonstration login preference on this browser.</span>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="rememberMe">
+                            <span class="switch-slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="settings-field">
+                        <div class="settings-field-info">
+                            <strong>Current browser</strong>
+                            <span id="browserInformation">Browser information unavailable.</span>
+                        </div>
+                    </div>
+
+                    <div class="settings-session-actions">
+                        <button type="button" class="btn btn-outline" id="clearPreferences">
+                            Reset preferences
+                        </button>
+                        <a href="../auth/login.html" class="btn btn-outline logout-settings" id="settingsLogout">
+                            Log out
+                        </a>
+                    </div>
+                </section>
+
+                <div class="settings-save-bar">
+                    <p>Your changes are not saved until you click Save Preferences.</p>
+                    <div>
+                        <button type="button" class="btn btn-outline" id="cancelSettings">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="saveSettings">Save Preferences</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<script src="../assets/js/navigation.js"></script>
+<script src="../assets/js/settings.js"></script>
+
+</body>
+</html>

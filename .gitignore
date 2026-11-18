@@ -31,3 +31,8 @@ uploads/
 *.sql.bak
 database/backups/
 
+
+# Local editing backups - do not commit
+*.backup
+*.content-backup
+*.payment-backup

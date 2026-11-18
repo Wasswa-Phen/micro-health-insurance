@@ -1,0 +1,230 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications | AfyaMicro Kampala</title>
+
+    <link rel="stylesheet" href="../assets/css/base.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="../assets/css/notifications.css">
+</head>
+<body class="dashboard-page">
+
+<div class="dashboard-overlay" id="dashboardOverlay"></div>
+
+<aside class="dashboard-sidebar" id="dashboardSidebar">
+    <div class="dashboard-sidebar-brand">
+        <a href="../index.html">
+            <img src="../assets/images/afyamicrologo.svg" alt="AfyaMicro Kampala">
+        </a>
+    </div>
+
+    <div class="sidebar-user">
+        <div class="sidebar-avatar" id="sidebarAvatar">U</div>
+        <div>
+            <strong id="sidebarUserName">Member</strong>
+            <span>AfyaMicro Member</span>
+        </div>
+    </div>
+
+    <nav class="dashboard-nav">
+        <span class="sidebar-section-title">MAIN MENU</span>
+
+        <a href="dashboard.html" class="dashboard-nav-link">
+            <span class="nav-icon">⌂</span> Dashboard
+        </a>
+
+        <a href="wallet.html" class="dashboard-nav-link">
+            <span class="nav-icon">▣</span> My Wallet
+        </a>
+
+        <a href="contributions.html" class="dashboard-nav-link">
+            <span class="nav-icon">↗</span> Contributions
+        </a>
+
+        <a href="claims.html" class="dashboard-nav-link">
+            <span class="nav-icon">＋</span> Health Claims
+        </a>
+
+        <a href="transactions.html" class="dashboard-nav-link">
+            <span class="nav-icon">⇄</span> Transactions
+        </a>
+
+        <a href="notifications.html" class="dashboard-nav-link active">
+            <span class="nav-icon">♧</span> Notifications
+            <span class="notification-nav-count" id="sidebarUnreadCount">0</span>
+        </a>
+
+        <span class="sidebar-section-title">ACCOUNT</span>
+
+        <a href="profile.html" class="dashboard-nav-link">
+            <span class="nav-icon">◎</span> My Profile
+        </a>
+
+        <a href="settings.html" class="dashboard-nav-link">
+            <span class="nav-icon">⚙</span> Settings
+        </a>
+
+        <span class="sidebar-section-title">SUPPORT</span>
+
+        <a href="../pharmacies.html" class="dashboard-nav-link">
+            <span class="nav-icon">✚</span> Partner Pharmacies
+        </a>
+
+        <a href="../how-it-works.html" class="dashboard-nav-link">
+            <span class="nav-icon">ⓘ</span> How It Works
+        </a>
+
+        <a href="../contact.html" class="dashboard-nav-link">
+            <span class="nav-icon">✉</span> Contact Support
+        </a>
+    </nav>
+
+    <div class="sidebar-bottom">
+        <a href="../auth/login.html" class="dashboard-nav-link logout-link" id="logoutLink">
+            <span class="nav-icon">↪</span> Log Out
+        </a>
+
+        <p>AfyaMicro Kampala<br><span>Frontend demonstration</span></p>
+    </div>
+</aside>
+
+<main class="dashboard-main">
+
+    <header class="dashboard-topbar">
+        <div class="topbar-left">
+            <button class="dashboard-menu-toggle" id="dashboardMenuToggle" aria-label="Open menu">☰</button>
+
+            <div>
+                <h1>Notifications</h1>
+                <p>Stay updated with your AfyaMicro account activity.</p>
+            </div>
+        </div>
+
+        <div class="topbar-user">
+            <div class="topbar-avatar" id="topbarAvatar">U</div>
+            <span id="topbarUserName">Member</span>
+        </div>
+    </header>
+
+    <div class="dashboard-content notifications-content">
+
+        <section class="notifications-heading">
+            <div>
+                <span class="eyebrow">YOUR UPDATES</span>
+                <h2>Notification centre</h2>
+                <p>Important updates and messages about your account.</p>
+            </div>
+
+            <button type="button" class="btn btn-outline" id="markAllRead">
+                ✓ Mark all as read
+            </button>
+        </section>
+
+        <div class="notification-demo-notice">
+            <strong>Demonstration notifications</strong>
+            <p>These sample messages demonstrate how notifications will appear. No live SMS, email or payment alerts are currently connected.</p>
+        </div>
+
+        <section class="notification-statistics">
+            <article class="notification-stat-card">
+                <div class="notification-stat-icon total-icon">♧</div>
+                <div>
+                    <span>Total notifications</span>
+                    <strong id="totalNotifications">0</strong>
+                </div>
+            </article>
+
+            <article class="notification-stat-card">
+                <div class="notification-stat-icon unread-icon">●</div>
+                <div>
+                    <span>Unread messages</span>
+                    <strong id="unreadNotifications">0</strong>
+                </div>
+            </article>
+
+            <article class="notification-stat-card">
+                <div class="notification-stat-icon read-icon">✓</div>
+                <div>
+                    <span>Read messages</span>
+                    <strong id="readNotifications">0</strong>
+                </div>
+            </article>
+        </section>
+
+        <section class="notification-panel">
+
+            <div class="notification-panel-heading">
+                <div>
+                    <h3>Recent notifications</h3>
+                    <p>Manage and review your account updates.</p>
+                </div>
+
+                <span class="unread-counter" id="unreadCounter">0 unread</span>
+            </div>
+
+            <div class="notification-toolbar">
+                <div class="notification-tabs" role="group" aria-label="Filter notifications">
+                    <button type="button" class="notification-tab active" data-filter="all">
+                        All <span id="allTabCount">0</span>
+                    </button>
+
+                    <button type="button" class="notification-tab" data-filter="unread">
+                        Unread <span id="unreadTabCount">0</span>
+                    </button>
+
+                    <button type="button" class="notification-tab" data-filter="read">
+                        Read <span id="readTabCount">0</span>
+                    </button>
+                </div>
+
+                <select id="notificationCategory" aria-label="Filter by category">
+                    <option value="all">All categories</option>
+                    <option value="account">Account</option>
+                    <option value="wallet">Wallet</option>
+                    <option value="contribution">Contributions</option>
+                    <option value="claim">Health claims</option>
+                    <option value="general">General</option>
+                </select>
+            </div>
+
+            <div class="notification-list" id="notificationList"></div>
+
+            <div class="notification-empty hidden" id="notificationEmpty">
+                <div class="empty-notification-icon">♧</div>
+                <h3>No notifications found</h3>
+                <p>There are no messages matching the selected filter.</p>
+                <button type="button" class="btn btn-outline" id="clearNotificationFilters">
+                    View all notifications
+                </button>
+            </div>
+
+            <div class="notification-panel-footer">
+                <span id="notificationResults">Showing 0 notifications</span>
+                <button type="button" id="clearReadNotifications" class="clear-read-button">
+                    Clear read notifications
+                </button>
+            </div>
+
+        </section>
+
+        <section class="notification-help">
+            <div class="notification-help-icon">ⓘ</div>
+            <div>
+                <strong>About your notifications</strong>
+                <p>In a fully connected system, notifications could inform members about deposits, contributions, claim updates, account changes and important service announcements. This frontend demonstration stores sample messages in your browser only.</p>
+                <a href="../contact.html">Need help? Contact support →</a>
+            </div>
+        </section>
+
+    </div>
+</main>
+
+<script src="../assets/js/navigation.js"></script>
+<script src="../assets/js/notifications.js"></script>
+
+</body>
+</html>
