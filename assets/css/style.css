@@ -1369,19 +1369,21 @@ select:focus {
   z-index: 2;
 }
 
-.wallet-head > span {
+.wallet-head > span:first-child {
   width: 36px;
   height: 36px;
   display: grid;
   place-items: center;
   background: rgba(255, 255, 255, 0.12);
   border-radius: 9px;
+  flex: 0 0 auto;
 }
 
 .wallet-head p {
   font-size: 9px;
   font-weight: 700;
   letter-spacing: 1.2px;
+  white-space: nowrap;
 }
 
 .wallet-policy-pill {
@@ -1396,6 +1398,8 @@ select:focus {
   font-size: 10px;
   font-weight: 700;
   color: #e6f7f5;
+  white-space: nowrap;
+  flex: 0 0 auto;
 }
 
 .wallet-card > p {
@@ -1752,7 +1756,7 @@ table {
 }
 
 th {
-  padding: 11px 23px;
+  padding: 11px 12px;
   color: #8896a8;
   background: #fbfcfd;
   border-bottom: 1px solid var(--line);
@@ -1763,7 +1767,7 @@ th {
 }
 
 td {
-  padding: 13px 23px;
+  padding: 12px 12px;
   color: #475569;
   border-bottom: 1px solid #edf1f5;
   white-space: nowrap;

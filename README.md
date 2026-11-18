@@ -4,6 +4,23 @@ A web-based micro health insurance platform designed for low-income pharmacy cli
 
 ---
 
+## Academic Project & Team Metadata
+
+- **Institution:** Makerere University Business School (MUBS), Faculty of Computing and Informatics, Department of Applied Computing
+- **Programme:** Bachelor of Business Computing (September 2026)
+- **Project Title:** Development of a Web-Based Micro Health Insurance System for Low-Income Pharmacy Clients in Kampala (**AfyaMicro Kampala**)
+- **Supervisor:** Mrs. Maria Miiro Kafuko
+
+| Student Name | Registration Number | Phone Contact |
+|---|---|---|
+| Katongole Erisa | 24/U/05484/PS | +256-767269901 |
+| Ekii Jesse Ryan | 24/U/0381 | +256-773190362 |
+| Kyeyune Elvis | 24/U/16368/EVE | +256-705711566 |
+| Ainemukama Trevor | 24/U/02969/PS | +256-753305903 |
+| Lubwama Erick Mpanga | 24/U/06468/PS | +256-706108195 |
+
+---
+
 ## Features by User Role
 
 ### Public & Authentication (`index.php`, `auth/`)
@@ -86,7 +103,12 @@ micro-health-insurance/
 │   └── migrations/
 │       └── 001_backend_controllers.sql  # Upgrade script for pre-v1 schemas
 └── docs/
-    └── SYSTEM_DESIGN.md            # Section 3.6 architecture, ERD, data dictionary, DFD & flows
+    ├── FINAL_PROJECT_REPORT.docx     # Formatted 6-chapter MUBS Final Project Report (A4, TOC & figures)
+    ├── FINAL_PROJECT_REPORT.md       # Markdown source reference of the Final Project Report
+    ├── SYSTEM_DESIGN.md              # Section 3.6 architecture, ERD, data dictionary, DFD & flows
+    ├── ITPD_Proposal.docx            # Approved MUBS project proposal (Sep 2026)
+    ├── Format of Final Report - BBC III and BOIM III 2022-1-1 (1) (1).pdf  # Official MUBS template
+    └── figures/                      # Rendered system design diagrams (fig1–6) & live UI captures (fig7–11)
 ```
 
 ---
@@ -135,5 +157,8 @@ All seeded accounts share the demo password **`password`**.
 ---
 
 ## Additional Documentation
-- [BACKEND_CONTRACT.md](BACKEND_CONTRACT.md) — Form endpoints, input `name` attributes, validation rules, and `fetch_data.php` variables.
+- [docs/FINAL_PROJECT_REPORT.docx](docs/FINAL_PROJECT_REPORT.docx) — Complete MUBS Final Project Report (Preliminary pages, Chapters 1–6, APA References, Appendices, embedded diagrams & live UI captures).
+- [docs/FINAL_PROJECT_REPORT.md](docs/FINAL_PROJECT_REPORT.md) — Clean Markdown reference copy of the Final Project Report.
 - [docs/SYSTEM_DESIGN.md](docs/SYSTEM_DESIGN.md) — 3-Tier Architecture, ERD, Data Dictionary, Context & Level-1 DFDs, Use Cases, and User Flows.
+- [docs/ITPD_Proposal.docx](docs/ITPD_Proposal.docx) — Approved project proposal and original interview instruments.
+- [BACKEND_CONTRACT.md](BACKEND_CONTRACT.md) — Form endpoints, input `name` attributes, validation rules, and `fetch_data.php` variables.
