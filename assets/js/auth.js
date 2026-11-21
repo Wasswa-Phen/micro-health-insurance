@@ -1,4 +1,4 @@
-﻿document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
     "use strict";
 
     const REMEMBER_KEY = "afyamic_ro_remembered_phone";
