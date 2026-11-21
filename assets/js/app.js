@@ -1,6 +1,6 @@
 /* =====================================================================
-   AfyaMicro Kampala — Vanilla JS UI Controller
-   Zero external dependencies; progressively enhances PHP/HTML forms.
+   AfyaMicro Kampala — Unified Vanilla JS UI Controller
+   Works across Client, Attendant, Admin, and Public pages.
    ===================================================================== */
 
 (function () {
@@ -12,53 +12,41 @@
   };
 
   // -------------------------------------------------------------------
-  // 1. Public Header Mobile Menu
+  // 1. Dashboard Sidebar Mobile Drawer (#dashboardMenuToggle / #dashboardSidebar)
   // -------------------------------------------------------------------
-  const menuBtn = document.querySelector("[data-menu-toggle]");
-  const publicNav = document.getElementById("public-nav");
-  if (menuBtn && publicNav) {
-    menuBtn.addEventListener("click", () => {
-      const open = publicNav.classList.toggle("nav-open");
-      menuBtn.setAttribute("aria-expanded", String(open));
-    });
-    publicNav.querySelectorAll("a").forEach((link) => {
-      link.addEventListener("click", () => {
-        publicNav.classList.remove("nav-open");
-        menuBtn.setAttribute("aria-expanded", "false");
-      });
-    });
-  }
+  const dashToggle = document.getElementById("dashboardMenuToggle");
+  const dashSidebar = document.getElementById("dashboardSidebar");
+  const dashOverlay = document.getElementById("dashboardOverlay");
 
-  // -------------------------------------------------------------------
-  // 2. Portal Sidebar Mobile Drawer
-  // -------------------------------------------------------------------
-  const sidebar = document.getElementById("portal-sidebar");
-  const scrim = document.getElementById("nav-scrim");
-  const openSidebarBtn = document.querySelector("[data-sidebar-open]");
-  const closeSidebarBtn = document.querySelector("[data-sidebar-close]");
-
-  const setSidebarOpen = (open) => {
-    if (!sidebar || !scrim) return;
-    sidebar.classList.toggle("sidebar-open", open);
-    scrim.classList.toggle("is-open", open);
+  const setDashMenu = (open) => {
+    if (!dashSidebar) return;
+    dashSidebar.classList.toggle("open", open);
+    if (dashOverlay) {
+      dashOverlay.classList.toggle("active", open);
+    }
+    if (dashToggle) {
+      dashToggle.setAttribute("aria-expanded", String(open));
+    }
   };
 
-  if (openSidebarBtn && sidebar && scrim) {
-    openSidebarBtn.addEventListener("click", () => setSidebarOpen(true));
-    if (closeSidebarBtn) {
-      closeSidebarBtn.addEventListener("click", () => setSidebarOpen(false));
+  if (dashToggle && dashSidebar) {
+    dashToggle.addEventListener("click", () => {
+      const isOpen = dashSidebar.classList.contains("open");
+      setDashMenu(!isOpen);
+    });
+    if (dashOverlay) {
+      dashOverlay.addEventListener("click", () => setDashMenu(false));
     }
-    scrim.addEventListener("click", () => setSidebarOpen(false));
-    sidebar.querySelectorAll("nav a").forEach((link) => {
-      link.addEventListener("click", () => setSidebarOpen(false));
+    dashSidebar.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => setDashMenu(false));
     });
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") setSidebarOpen(false);
+      if (e.key === "Escape") setDashMenu(false);
     });
   }
 
   // -------------------------------------------------------------------
-  // 3. Dismissible Alert Banners
+  // 2. Dismissible Alert Banners
   // -------------------------------------------------------------------
   document.querySelectorAll("[data-alert-dismiss]").forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -68,11 +56,11 @@
   });
 
   // -------------------------------------------------------------------
-  // 4. Password Visibility Toggle
+  // 3. Password Visibility Toggle
   // -------------------------------------------------------------------
   document.querySelectorAll("[data-toggle-password]").forEach((btn) => {
     btn.addEventListener("click", () => {
-      const wrap = btn.closest(".input-wrap");
+      const wrap = btn.closest(".input-wrap") || btn.closest(".password-wrapper");
       const input = wrap ? wrap.querySelector("input") : null;
       if (!input) return;
       const showing = input.type === "text";
@@ -83,7 +71,7 @@
   });
 
   // -------------------------------------------------------------------
-  // 5. Tabbed Activity / Report Panels
+  // 4. Tabbed Activity / Report Panels
   // -------------------------------------------------------------------
   document.querySelectorAll("[data-tab-group]").forEach((group) => {
     const groupName = group.getAttribute("data-tab-group");
@@ -100,7 +88,7 @@
   });
 
   // -------------------------------------------------------------------
-  // 6. Client Deposit Preset UGX Pills & Payment Radios
+  // 5. Client Deposit Preset UGX Pills & Payment Radios
   // -------------------------------------------------------------------
   const depositAmount = document.getElementById("deposit-amount");
   const presetPills = document.querySelectorAll("[data-deposit-amount]");
@@ -138,7 +126,7 @@
   }
 
   // -------------------------------------------------------------------
-  // 7. Live Attendant Co-Pay Calculator
+  // 6. Live Attendant & Client Co-Pay Calculator
   // -------------------------------------------------------------------
   const claimForm = document.getElementById("claim-form");
   const costInput = document.getElementById("claim-total-cost");
@@ -188,7 +176,7 @@
   }
 
   // -------------------------------------------------------------------
-  // 8. Admin Collapsible Panels (e.g. Add New Pharmacy)
+  // 7. Admin Collapsible Panels (e.g. Add New Pharmacy)
   // -------------------------------------------------------------------
   document.querySelectorAll("[data-toggle-target]").forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -207,10 +195,9 @@
   });
 
   // -------------------------------------------------------------------
-  // 9. Print Triggers (Receipt & Admin Report)
+  // 8. Print Triggers (Receipt & Admin Report)
   // -------------------------------------------------------------------
   document.querySelectorAll("[data-print]").forEach((btn) => {
     btn.addEventListener("click", () => window.print());
   });
 })();
-

@@ -3,13 +3,15 @@
  * config/ui.php
  * ---------------------------------------------------------------------
  * Pure presentation helpers (inline SVG icons, brand logo, alert box,
- * status badges, and portal shell wrapper). Contains ZERO SQL queries.
+ * status badges, public site header/footer, client sidebar/topbar, and
+ * portal shell wrapper) styled with the feature/afyamic-content-expansion
+ * design system. Contains ZERO SQL queries.
  * ---------------------------------------------------------------------
  */
 
 declare(strict_types=1);
 
-/** Return an inline 24x24 stroke SVG matching the Figma Make icon set. */
+/** Return an inline 24x24 stroke SVG icon. */
 function uiIcon(string $name, int $size = 20): string
 {
     static $paths = [
@@ -41,13 +43,13 @@ function uiIcon(string $name, int $size = 20): string
     return '<svg aria-hidden="true" width="' . $size . '" height="' . $size . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' . $body . '</svg>';
 }
 
-/** Render the AfyaMicro Kampala brand mark. */
-function uiLogo(string $href, bool $inverse = false): string
+/** Render the AfyaMicro Kampala brand mark using afyamicrologo.svg. */
+function uiLogo(string $href, bool $inverse = false, string $assetPrefix = '../'): string
 {
     $cls = $inverse ? 'logo logo-inverse' : 'logo';
+    $imgStyle = $inverse ? ' style="filter: brightness(0) invert(1);"' : '';
     return '<a class="' . $cls . '" href="' . e($href) . '" aria-label="AfyaMicro Kampala home">'
-        . '<span class="logo-mark">' . uiIcon('heart', 21) . '<span class="logo-plus">+</span></span>'
-        . '<span><b>Afya</b>Micro <small>KAMPALA</small></span>'
+        . '<img src="' . e($assetPrefix) . 'assets/images/afyamicrologo.svg" alt="AfyaMicro Kampala"' . $imgStyle . '>'
         . '</a>';
 }
 
@@ -92,20 +94,250 @@ function uiDate(?string $datetime, string $format = 'd M Y · h:i A'): string
     return $ts === false ? e($datetime) : date($format, $ts);
 }
 
-/** Render a status badge matching the Figma palette. */
+/** Render a status badge matching the AfyaMicro palette. */
 function uiStatusBadge(string $status, bool $withDot = false): string
 {
     $s = strtolower(trim($status));
     $cls = match ($s) {
-        'active', 'completed', 'approved', 'success' => 'success',
-        'pending', 'partial'                         => 'warning',
-        default                                      => 'danger',
+        'active', 'completed', 'approved', 'success' => 'status-success success',
+        'pending', 'partial'                         => 'status-warning warning',
+        default                                      => 'status-danger danger',
     };
     $dot = $withDot ? '<i></i> ' : '';
-    return '<span class="badge ' . $cls . '">' . $dot . e(strtoupper($status)) . '</span>';
+    return '<span class="status-pill badge ' . $cls . '">' . $dot . e(strtoupper($status)) . '</span>';
 }
 
-/** Render the opening HTML5 + portal sidebar + top header shell. */
+/** Render the shared public site header from feature/afyamic-content-expansion. */
+function uiPublicHeader(string $activePage = 'home', bool $loggedIn = false): void
+{
+    $role = (string) ($_SESSION['role'] ?? 'client');
+    $portalUrl = match ($role) {
+        'admin'     => 'admin/dashboard.php',
+        'attendant' => 'attendant/dashboard.php',
+        default     => 'client/dashboard.php',
+    };
+    ?>
+<header class="site-header">
+    <div class="container header-inner">
+        <a href="index.php" class="brand-logo">
+            <img src="assets/images/afyamicrologo.svg" alt="AfyaMicro Kampala logo">
+        </a>
+
+        <button class="menu-toggle" id="menuToggle"
+                aria-label="Open navigation menu"
+                aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+
+        <nav class="nav-links" id="mainNav">
+            <a href="index.php" class="<?= $activePage === 'home' ? 'active' : '' ?>">Home</a>
+            <a href="how-it-works.php" class="<?= $activePage === 'how-it-works' ? 'active' : '' ?>">How It Works</a>
+            <a href="pharmacies.php" class="<?= $activePage === 'pharmacies' ? 'active' : '' ?>">Partner Pharmacies</a>
+            <a href="about.php" class="<?= $activePage === 'about' ? 'active' : '' ?>">About Us</a>
+            <a href="contact.php" class="<?= $activePage === 'contact' ? 'active' : '' ?>">Contact</a>
+        </nav>
+
+        <div class="header-actions">
+            <?php if ($loggedIn): ?>
+                <a href="<?= e($portalUrl) ?>" class="btn btn-primary">My Dashboard</a>
+                <a href="auth/logout.php" class="btn btn-outline">Sign Out</a>
+            <?php else: ?>
+                <a href="auth/login.php" class="btn btn-outline">Sign In</a>
+                <a href="auth/register.php" class="btn btn-primary">Get Covered</a>
+            <?php endif; ?>
+        </div>
+    </div>
+</header>
+    <?php
+}
+
+/** Render the shared public site footer from feature/afyamic-content-expansion. */
+function uiPublicFooter(): void
+{
+    ?>
+<footer class="site-footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="index.php">
+                    <img src="assets/images/afyamicrologo.svg" alt="AfyaMicro Kampala logo">
+                </a>
+                <p>
+                    Making healthcare preparation simpler through
+                    accessible digital health wallet experiences across Kampala.
+                </p>
+            </div>
+
+            <div class="footer-column">
+                <h3>Explore</h3>
+                <a href="index.php">Home</a>
+                <a href="how-it-works.php">How It Works</a>
+                <a href="pharmacies.php">Partner Pharmacies</a>
+            </div>
+
+            <div class="footer-column">
+                <h3>AfyaMicro</h3>
+                <a href="about.php">About Us</a>
+                <a href="contact.php">Contact</a>
+                <a href="auth/register.php">Get Covered</a>
+            </div>
+
+            <div class="footer-column">
+                <h3>Your Account</h3>
+                <a href="auth/login.php">Sign In</a>
+                <a href="auth/register.php">Register</a>
+                <a href="client/dashboard.php">Client Portal</a>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; <span id="currentYear"><?= date('Y') ?></span> AfyaMicro Kampala. All rights reserved.</p>
+            <p>Healthcare preparation, made simpler.</p>
+        </div>
+    </div>
+</footer>
+    <?php
+}
+
+/** Render the Client Dashboard Sidebar from feature/afyamic-content-expansion. */
+function uiClientSidebar(string $activePage, ?array $client, int $notifCount = 0): void
+{
+    $fullName     = (string) ($client['full_name'] ?? ($_SESSION['full_name'] ?? 'AfyaMicro Member'));
+    $policyNumber = (string) ($client['policy_number'] ?? 'Client Account');
+    $initials     = uiInitials($fullName);
+    ?>
+    <div class="dashboard-overlay" id="dashboardOverlay"></div>
+
+    <aside class="dashboard-sidebar" id="dashboardSidebar">
+        <a href="../index.php" class="dashboard-brand">
+            <img src="../assets/images/afyamicrologo.svg" alt="AfyaMicro Kampala" style="filter: brightness(0) invert(1);">
+        </a>
+
+        <div class="sidebar-section-label">MAIN MENU</div>
+
+        <nav class="dashboard-nav">
+            <a href="dashboard.php" class="<?= $activePage === 'dashboard' ? 'active' : '' ?>">
+                <span class="nav-icon">⌂</span>
+                <span>Overview</span>
+            </a>
+
+            <a href="wallet.php" class="<?= $activePage === 'wallet' ? 'active' : '' ?>">
+                <span class="nav-icon">▣</span>
+                <span>My Health Wallet</span>
+            </a>
+
+            <a href="contributions.php" class="<?= $activePage === 'contributions' ? 'active' : '' ?>">
+                <span class="nav-icon">↗</span>
+                <span>Contributions</span>
+            </a>
+
+            <a href="claims.php" class="<?= $activePage === 'claims' ? 'active' : '' ?>">
+                <span class="nav-icon">♡</span>
+                <span>My Claims</span>
+            </a>
+
+            <a href="transactions.php" class="<?= $activePage === 'transactions' ? 'active' : '' ?>">
+                <span class="nav-icon">⇄</span>
+                <span>Transactions</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-section-label">ACCOUNT</div>
+
+        <nav class="dashboard-nav">
+            <a href="notifications.php" class="<?= $activePage === 'notifications' ? 'active' : '' ?>">
+                <span class="nav-icon">♧</span>
+                <span>Notifications</span>
+                <?php if ($notifCount > 0): ?>
+                    <span class="nav-count" id="sidebarUnreadCount"><?= $notifCount ?></span>
+                <?php endif; ?>
+            </a>
+
+            <a href="profile.php" class="<?= $activePage === 'profile' ? 'active' : '' ?>">
+                <span class="nav-icon">♙</span>
+                <span>My Profile</span>
+            </a>
+
+            <a href="settings.php" class="<?= $activePage === 'settings' ? 'active' : '' ?>">
+                <span class="nav-icon">⚙</span>
+                <span>Settings</span>
+            </a>
+
+            <a href="../pharmacies.php">
+                <span class="nav-icon">✚</span>
+                <span>Find a Pharmacy</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <nav class="dashboard-nav">
+                <a href="../how-it-works.php">
+                    <span class="nav-icon">ⓘ</span>
+                    <span>Help &amp; Support</span>
+                </a>
+
+                <a href="../auth/logout.php" id="logoutLink">
+                    <span class="nav-icon">⇥</span>
+                    <span>Sign Out</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-profile">
+                <div class="profile-avatar" id="sidebarAvatar"><?= e($initials) ?></div>
+                <div>
+                    <strong id="sidebarUserName"><?= e($fullName) ?></strong>
+                    <small><?= e($policyNumber) ?></small>
+                </div>
+            </div>
+        </div>
+    </aside>
+    <?php
+}
+
+/** Render the Client Dashboard Topbar from feature/afyamic-content-expansion. */
+function uiClientTopbar(string $title, string $subtitle, ?array $client): void
+{
+    $fullName     = (string) ($client['full_name'] ?? ($_SESSION['full_name'] ?? 'AfyaMicro Member'));
+    $policyNumber = (string) ($client['policy_number'] ?? 'Member account');
+    $initials     = uiInitials($fullName);
+    ?>
+        <header class="dashboard-topbar">
+            <div class="dashboard-topbar-left">
+                <button class="dashboard-menu-toggle"
+                    id="dashboardMenuToggle"
+                    aria-label="Open dashboard menu"
+                    aria-expanded="false">
+                    ☰
+                </button>
+
+                <div>
+                    <h1 class="dashboard-page-title"><?= e($title) ?></h1>
+                    <p class="dashboard-page-subtitle"><?= e($subtitle) ?></p>
+                </div>
+            </div>
+
+            <div class="dashboard-topbar-actions">
+                <a href="notifications.php"
+                    class="dashboard-notification"
+                    aria-label="Notifications">
+                    ♧
+                    <span class="notification-dot"></span>
+                </a>
+
+                <div class="dashboard-user">
+                    <div class="profile-avatar" id="topbarAvatar"><?= e($initials) ?></div>
+
+                    <div class="dashboard-user-details">
+                        <strong id="topbarUserName"><?= e($fullName) ?></strong>
+                        <small><?= e($policyNumber) ?></small>
+                    </div>
+                </div>
+            </div>
+        </header>
+    <?php
+}
+
+/** Render the opening HTML5 + sidebar + topbar shell for Attendant & Admin portals. */
 function uiPortalStart(array $cfg): void
 {
     $pageTitle  = $cfg['pageTitle'] ?? APP_NAME;
@@ -123,58 +355,93 @@ function uiPortalStart(array $cfg): void
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= e($pageTitle) ?> — AfyaMicro Kampala</title>
+    <title><?= e($pageTitle) ?> | AfyaMicro Kampala</title>
+    <link rel="stylesheet" href="../assets/css/base.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="../assets/css/content-expansion.css">
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
-<body>
-<div class="portal-shell">
-    <aside class="sidebar" id="portal-sidebar">
-        <div class="sidebar-top">
-            <?= uiLogo($homeHref, true) ?>
-            <button type="button" class="sidebar-close" data-sidebar-close aria-label="Close navigation">
-                <?= uiIcon('close') ?>
-            </button>
-        </div>
-        <p>WORKSPACES</p>
-        <nav aria-label="Portal navigation">
+<body class="dashboard-body">
+<div class="dashboard-layout">
+    <div class="dashboard-overlay" id="dashboardOverlay"></div>
+
+    <aside class="dashboard-sidebar" id="dashboardSidebar">
+        <a href="<?= e($homeHref) ?>" class="dashboard-brand">
+            <img src="../assets/images/afyamicrologo.svg" alt="AfyaMicro Kampala" style="filter: brightness(0) invert(1);">
+        </a>
+
+        <div class="sidebar-section-label">WORKSPACE</div>
+
+        <nav class="dashboard-nav" aria-label="Portal navigation">
             <?php foreach ($navItems as $item): ?>
                 <a href="<?= e($item['href']) ?>" class="<?= !empty($item['active']) ? 'active' : '' ?>">
-                    <?= uiIcon($item['icon']) ?>
+                    <span class="nav-icon"><?= uiIcon($item['icon'], 17) ?></span>
                     <span><?= e($item['label']) ?></span>
                 </a>
             <?php endforeach; ?>
         </nav>
-        <div class="sidebar-help">
-            <?= uiIcon('heart') ?>
-            <b>Need assistance?</b>
-            <span>Our support team is here.</span>
-            <strong>0800 222 018</strong>
+
+        <div class="sidebar-section-label">DIRECTORY &amp; HELP</div>
+        <nav class="dashboard-nav">
+            <a href="../pharmacies.php">
+                <span class="nav-icon">✚</span>
+                <span>Partner Pharmacies</span>
+            </a>
+            <a href="../how-it-works.php">
+                <span class="nav-icon">ⓘ</span>
+                <span>How It Works</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <nav class="dashboard-nav">
+                <a href="<?= e($logoutHref) ?>" id="logoutLink">
+                    <span class="nav-icon">⇥</span>
+                    <span>Sign Out</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-profile">
+                <div class="profile-avatar"><?= e($initials) ?></div>
+                <div>
+                    <strong><?= e($userName) ?></strong>
+                    <small><?= e($roleLabel) ?></small>
+                </div>
+            </div>
         </div>
-        <a class="sidebar-user" href="<?= e($logoutHref) ?>" title="Sign out of <?= e($userName) ?>">
-            <span><?= e($initials) ?></span>
-            <div>
-                <b><?= e($userName) ?></b>
-                <small>Sign out</small>
-            </div>
-            <?= uiIcon('chevron', 17) ?>
-        </a>
     </aside>
-    <button type="button" class="nav-scrim" id="nav-scrim" aria-label="Close navigation"></button>
-    <div class="portal-content">
-        <header class="portal-header">
-            <button type="button" class="mobile-menu" data-sidebar-open aria-label="Open navigation">
-                <?= uiIcon('menu') ?>
-            </button>
-            <div>
-                <h1><?= e($title) ?></h1>
-                <p><?= e($subtitle) ?></p>
+
+    <main class="dashboard-main">
+        <header class="dashboard-topbar">
+            <div class="dashboard-topbar-left">
+                <button class="dashboard-menu-toggle"
+                    id="dashboardMenuToggle"
+                    data-sidebar-open
+                    aria-label="Open navigation menu"
+                    aria-expanded="false">
+                    ☰
+                </button>
+
+                <div>
+                    <h1 class="dashboard-page-title"><?= e($title) ?></h1>
+                    <p class="dashboard-page-subtitle"><?= e($subtitle) ?></p>
+                </div>
             </div>
-            <div class="header-actions">
-                <span class="role-chip"><?= uiIcon('shield', 14) ?> <?= e($roleLabel) ?></span>
-                <span class="header-avatar" title="<?= e($userName) ?>"><?= e($initials) ?></span>
+
+            <div class="dashboard-topbar-actions">
+                <span class="badge"><?= e($roleLabel) ?></span>
+                <div class="dashboard-user">
+                    <div class="profile-avatar"><?= e($initials) ?></div>
+                    <div class="dashboard-user-details">
+                        <strong><?= e($userName) ?></strong>
+                        <small><?= e($roleLabel) ?></small>
+                    </div>
+                </div>
             </div>
         </header>
-        <main class="portal-main">
+        <div class="portal-main">
     <?php
 }
 
@@ -182,12 +449,14 @@ function uiPortalStart(array $cfg): void
 function uiPortalEnd(): void
 {
     ?>
-        </main>
-    </div>
+        </div>
+        <footer style="padding:30px 0 5px;text-align:center;color:#7C8C91;font-size:12px;">
+            &copy; <?= date('Y') ?> AfyaMicro Kampala. All rights reserved.
+        </footer>
+    </main>
 </div>
 <script src="../assets/js/app.js"></script>
 </body>
 </html>
     <?php
 }
-

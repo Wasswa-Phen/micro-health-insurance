@@ -227,14 +227,33 @@ function inputId(string $key, string $source = 'POST'): int
     return $id === false ? 0 : (int) $id;
 }
 
-/** Normalise a phone number: digits only, +256/256 prefix -> 0. */
+/** Normalise a phone number: digits only, +256/256 prefix -> 0, 9-digit 7XXXXXXXX -> 07XXXXXXXX. */
 function normalizePhone(string $phone): string
 {
     $digits = preg_replace('/\D+/', '', $phone) ?? '';
     if (str_starts_with($digits, '256') && strlen($digits) === 12) {
         $digits = '0' . substr($digits, 3);
+    } elseif (str_starts_with($digits, '7') && strlen($digits) === 9) {
+        $digits = '0' . $digits;
     }
     return $digits;
+}
+
+/** Fetch active partner pharmacies for public directory views. */
+function publicPharmacies(): array
+{
+    global $pdo;
+    try {
+        return $pdo->query(
+            "SELECT pharmacy_id, name, license_no, location, address, phone, status
+               FROM pharmacies
+              WHERE status = 'active'
+           ORDER BY name"
+        )->fetchAll();
+    } catch (PDOException $e) {
+        error_log('[MHI] publicPharmacies: ' . $e->getMessage());
+        return [];
+    }
 }
 
 /** Validate a Ugandan mobile number in local format 07XXXXXXXX. */

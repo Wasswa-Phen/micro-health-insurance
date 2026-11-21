@@ -1,6 +1,6 @@
 <?php
 /**
- * auth/register.php — New Client Registration Page
+ * auth/register.php — Client Registration Page (Content Expansion Design)
  * Wired to auth/fetch_data.php ($pharmacies) & POST auth/register_process.php
  */
 
@@ -16,179 +16,174 @@ $selectedPharmacy = old('pharmacy_id');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register Client — AfyaMicro Kampala</title>
+    <title>Create Account | AfyaMicro Kampala</title>
+    <link rel="stylesheet" href="../assets/css/base.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+    <link rel="stylesheet" href="../assets/css/auth.css">
+    <link rel="stylesheet" href="../assets/css/content-expansion.css">
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
-<body>
-<div class="access-page">
-    <aside class="access-aside">
-        <?= uiLogo('../index.php', true) ?>
-        <div class="access-message">
-            <span class="aside-icon"><?= uiIcon('shield', 31) ?></span>
-            <h1>Health security that grows with every small save.</h1>
-            <p>
-                Join Kampala residents building reliable medicine cover, one flexible contribution at a
-                time.
-            </p>
-            <div class="aside-proof">
-                <div class="avatar-stack">
-                    <i>MK</i>
-                    <i>AN</i>
-                    <i>+</i>
-                </div>
-                <span>
-                    <b>Trusted across Kampala</b>
-                    <small>Kisenyi · Kawempe · Katwe</small>
-                </span>
-            </div>
-        </div>
-        <small>© <?= date('Y') ?> AfyaMicro Kampala · Your health, within reach.</small>
-    </aside>
+<body class="auth-page">
 
-    <main class="access-main">
-        <a class="back-link" href="../index.php">← Back to home</a>
+    <main class="auth-layout register-layout">
+        <section class="auth-brand-panel">
+            <a href="../index.php" class="auth-logo">
+                <img src="../assets/images/afyamicrologo.svg" alt="AfyaMicro logo" style="filter: brightness(0) invert(1);">
+            </a>
 
-        <div class="access-card">
-            <div class="access-title">
-                <span class="mobile-logo"><?= uiLogo('../index.php') ?></span>
-                <h2>Create your cover</h2>
-                <p>Start saving for better health in just a minute.</p>
-            </div>
-
-            <div class="tabs two-tabs">
-                <a href="login.php">Login</a>
-                <a class="active" href="register.php">New client</a>
-            </div>
-
-            <?= uiAlert($alert) ?>
-
-            <form method="POST" action="register_process.php">
-                <?= csrfField() ?>
-
-                <label>
-                    Full name
-                    <div class="input-wrap">
-                        <?= uiIcon('user', 19) ?>
-                        <input
-                            type="text"
-                            name="full_name"
-                            required
-                            minlength="3"
-                            maxlength="120"
-                            value="<?= old('full_name') ?>"
-                            placeholder="e.g. Musa Kato"
-                            autocomplete="name"
-                        >
-                    </div>
-                </label>
-
-                <label>
-                    Phone number
-                    <div class="input-wrap phone-input">
-                        <span>UG</span>
-                        <input
-                            type="tel"
-                            name="phone"
-                            required
-                            maxlength="13"
-                            inputmode="numeric"
-                            pattern="(\+?256|0)7[0-9]{8}"
-                            value="<?= old('phone') ?>"
-                            placeholder="0701555111"
-                            autocomplete="tel"
-                        >
-                    </div>
-                </label>
-
-                <label>
-                    Uganda National ID (NIN) <em>(optional)</em>
-                    <div class="input-wrap">
-                        <?= uiIcon('clipboard', 18) ?>
-                        <input
-                            type="text"
-                            name="nin"
-                            maxlength="14"
-                            pattern="[A-Za-z0-9]{14}"
-                            value="<?= old('nin') ?>"
-                            placeholder="e.g. CM88021145PQRA"
-                        >
-                    </div>
-                </label>
-
-                <label>
-                    Preferred home pharmacy
-                    <select name="pharmacy_id" required>
-                        <option value="">Select partner pharmacy...</option>
-                        <?php foreach ($pharmacies as $p): ?>
-                            <?php $pid = (string) (int) $p['pharmacy_id']; ?>
-                            <option value="<?= $pid ?>" <?= $selectedPharmacy === $pid ? 'selected' : '' ?>>
-                                <?= e($p['name']) ?> — <?= e($p['location']) ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                </label>
-
-                <div class="field-row">
-                    <label>
-                        Password
-                        <div class="input-wrap">
-                            <?= uiIcon('lock', 18) ?>
-                            <input
-                                type="password"
-                                name="password"
-                                required
-                                minlength="6"
-                                placeholder="Min 6 chars"
-                                autocomplete="new-password"
-                            >
-                            <button type="button" data-toggle-password aria-label="Show password" aria-pressed="false">
-                                <?= uiIcon('eye', 18) ?>
-                            </button>
-                        </div>
-                    </label>
-
-                    <label>
-                        Confirm password
-                        <div class="input-wrap">
-                            <?= uiIcon('lock', 18) ?>
-                            <input
-                                type="password"
-                                name="confirm_password"
-                                required
-                                minlength="6"
-                                placeholder="Repeat password"
-                                autocomplete="new-password"
-                            >
-                            <button type="button" data-toggle-password aria-label="Show password" aria-pressed="false">
-                                <?= uiIcon('eye', 18) ?>
-                            </button>
-                        </div>
-                    </label>
-                </div>
-
-                <div class="policy-note">
-                    <?= uiIcon('shield') ?>
-                    <div>
-                        <b>Your policy ID is created automatically</b>
-                        <p>
-                            After registration, you’ll receive a unique ID like
-                            <strong>MHI-KLA-XXXX</strong> and enter your wallet straight away.
-                        </p>
-                    </div>
-                </div>
-
-                <button class="btn btn-primary full" type="submit">
-                    Create free account <?= uiIcon('arrow') ?>
-                </button>
-
-                <p class="form-terms">
-                    By registering, you agree to our Terms of Service and Privacy Policy.
+            <div class="brand-content">
+                <span class="auth-eyebrow">START YOUR JOURNEY</span>
+                <h1>A healthier tomorrow starts with a simple step.</h1>
+                <p>
+                    Create your AfyaMicro account and receive an automatic
+                    MHI-KLA-XXXX policy number with a personal UGX health wallet.
                 </p>
-            </form>
-        </div>
+
+                <div class="brand-feature">
+                    <span class="feature-icon">✓</span>
+                    <span>Create your personal account &amp; policy ID</span>
+                </div>
+                <div class="brand-feature">
+                    <span class="feature-icon">✓</span>
+                    <span>Save flexible amounts via Mobile Money</span>
+                </div>
+                <div class="brand-feature">
+                    <span class="feature-icon">✓</span>
+                    <span>Redeem prescriptions at partner pharmacies</span>
+                </div>
+            </div>
+
+            <div class="brand-bottom">
+                <span>AfyaMicro Kampala</span>
+                <span>Accessible healthcare, together.</span>
+            </div>
+        </section>
+
+        <section class="auth-form-panel register-form-panel">
+            <div class="auth-form-container register-container">
+                <a href="../index.php" class="mobile-auth-logo">
+                    <img src="../assets/images/afyamicrologo.svg" alt="AfyaMicro">
+                </a>
+
+                <div class="auth-heading">
+                    <span class="form-eyebrow">GET STARTED</span>
+                    <h2>Create your account</h2>
+                    <p>Fill in your details to get started with AfyaMicro.</p>
+                </div>
+
+                <?= uiAlert($alert) ?>
+
+                <form id="registerForm" method="POST" action="register_process.php">
+                    <?= csrfField() ?>
+
+                    <div class="form-group">
+                        <label for="fullName">Full name</label>
+                        <input type="text" id="fullName" name="full_name"
+                            class="form-control" placeholder="e.g. Musa Kato"
+                            minlength="3" maxlength="120"
+                            value="<?= old('full_name') ?>"
+                            autocomplete="name" required>
+                        <small class="field-error" id="fullNameError"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="registerPhone">Phone number</label>
+                        <div class="input-with-icon">
+                            <span class="input-prefix">+256</span>
+                            <input type="tel" id="registerPhone" name="phone"
+                                class="form-control" placeholder="0701555111"
+                                maxlength="13"
+                                value="<?= old('phone') ?>"
+                                autocomplete="tel" required>
+                        </div>
+                        <small class="field-error" id="registerPhoneError"></small>
+                        <small class="field-hint">Use your Ugandan mobile number (e.g. 0701555111).</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nin">National Identification Number <span class="optional">(Optional — 14 chars)</span></label>
+                        <input type="text" id="nin" name="nin"
+                            class="form-control" maxlength="14"
+                            value="<?= old('nin') ?>"
+                            placeholder="e.g. CM88021145PQRA">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="homePharmacy">Preferred home pharmacy</label>
+                        <select id="homePharmacy" name="pharmacy_id" class="form-control" required>
+                            <option value="">Select partner pharmacy...</option>
+                            <?php foreach ($pharmacies as $p): ?>
+                                <?php $pid = (string) (int) $p['pharmacy_id']; ?>
+                                <option value="<?= $pid ?>" <?= $selectedPharmacy === $pid ? 'selected' : '' ?>>
+                                    <?= e($p['name']) ?> — <?= e($p['location']) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                        <small class="field-error" id="homePharmacyError"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="registerPassword">Create password</label>
+                        <div class="password-wrapper">
+                            <input type="password" id="registerPassword"
+                                name="password" class="form-control"
+                                minlength="6"
+                                placeholder="Create a password (minimum 6 characters)"
+                                autocomplete="new-password" required>
+                            <button type="button" class="password-toggle"
+                                data-password-toggle="registerPassword"
+                                aria-label="Show password">Show</button>
+                        </div>
+                        <small class="field-error" id="registerPasswordError"></small>
+                        <small class="field-hint">Your password must contain at least 6 characters.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm password</label>
+                        <div class="password-wrapper">
+                            <input type="password" id="confirmPassword"
+                                name="confirm_password" class="form-control"
+                                minlength="6"
+                                placeholder="Enter your password again"
+                                autocomplete="new-password" required>
+                            <button type="button" class="password-toggle"
+                                data-password-toggle="confirmPassword"
+                                aria-label="Show password">Show</button>
+                        </div>
+                        <small class="field-error" id="confirmPasswordError"></small>
+                    </div>
+
+                    <label class="remember-option terms-option">
+                        <input type="checkbox" id="acceptTerms" checked required>
+                        <span>I agree to the Terms of Use and Privacy Policy.</span>
+                    </label>
+
+                    <button type="submit" class="btn btn-primary auth-submit">
+                        Create Account <span>→</span>
+                    </button>
+                </form>
+
+                <div class="auth-divider"><span>ALREADY REGISTERED?</span></div>
+
+                <p class="auth-switch">
+                    Already have an account?
+                    <a href="login.php">Sign in</a>
+                </p>
+
+                <div class="auth-extra-content" id="registration-guidance">
+                    <h3>Instant Policy &amp; Wallet Activation</h3>
+                    <ul>
+                        <li>Your unique policy number (<strong>MHI-KLA-XXXX</strong>) is generated automatically.</li>
+                        <li>Your health wallet starts at <strong>UGX 0</strong> and can be topped up anytime via MTN MoMo, Airtel Money, or Cash Agent.</li>
+                        <li>You can claim prescriptions at any active partner pharmacy in Kampala.</li>
+                    </ul>
+                </div>
+                <a href="../index.php" class="back-home">← Back to homepage</a>
+            </div>
+        </section>
     </main>
-</div>
-<script src="../assets/js/app.js"></script>
+
+    <script src="../assets/js/auth.js"></script>
 </body>
 </html>
-

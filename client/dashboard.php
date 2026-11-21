@@ -1,6 +1,6 @@
 <?php
 /**
- * client/dashboard.php — Client Health Wallet & Micro-Deposit Portal
+ * client/dashboard.php — Client Overview & Health Wallet Dashboard (Content Expansion Design)
  * Wired to client/fetch_data.php & POST client/deposit_process.php
  */
 
@@ -9,17 +9,21 @@ declare(strict_types=1);
 require_once __DIR__ . '/fetch_data.php';
 require_once __DIR__ . '/../config/ui.php';
 
-$fullName       = (string) ($client['full_name'] ?? ($_SESSION['full_name'] ?? 'Client'));
-$firstName      = explode(' ', trim($fullName))[0] ?: 'Client';
-$policyNumber   = (string) ($client['policy_number'] ?? 'Pending');
-$walletStatus   = (string) ($client['wallet_status'] ?? 'active');
-$availableBal   = (float) ($client['available_balance'] ?? 0);
-$totalContrib   = (float) ($client['total_contributed'] ?? 0);
-$coveragePct    = $totalContrib > 0 ? min(100, max(0, (int) round(($availableBal / $totalContrib) * 100))) : 0;
+$fullName      = (string) ($client['full_name'] ?? ($_SESSION['full_name'] ?? 'Member'));
+$firstName     = explode(' ', trim($fullName))[0] ?: 'Member';
+$policyNumber  = (string) ($client['policy_number'] ?? 'Pending');
+$planName      = (string) ($client['plan_name'] ?? 'Basic Care Plan');
+$walletStatus  = (string) ($client['wallet_status'] ?? 'active');
+$availableBal  = (float) ($client['available_balance'] ?? 0);
+$totalContrib  = (float) ($client['total_contributed'] ?? 0);
+$totalCovered  = (float) ($clientStats['total_covered'] ?? 0);
+$depositsCount = (int) ($clientStats['deposits_count'] ?? 0);
+$claimsCount   = (int) ($clientStats['claims_count'] ?? 0);
+$memberSince   = uiDate($client['start_date'] ?? ($client['member_since'] ?? null), 'd M Y');
 
-$depositAmtOld  = old('amount', '2000');
-$methodOld      = old('payment_method', 'MTN_MoMo');
-$payerPhoneOld  = old('payer_phone', (string) ($client['phone'] ?? ''));
+$depositAmtOld = old('amount', '2000');
+$methodOld     = old('payment_method', 'MTN_MoMo');
+$payerPhoneOld = old('payer_phone', (string) ($client['phone'] ?? ''));
 
 $extraDetail = '';
 if ($latestDeposit) {
@@ -27,259 +31,456 @@ if ($latestDeposit) {
         . ' (' . formatUGX($latestDeposit['amount']) . ' via ' . $latestDeposit['payment_method_label'] . ')';
 }
 
-uiPortalStart([
-    'pageTitle'  => 'Client Portal',
-    'title'      => 'Welcome, ' . $firstName,
-    'subtitle'   => 'Policy ' . $policyNumber . (!empty($client['home_pharmacy']) ? ' · Home pharmacy: ' . $client['home_pharmacy'] : ''),
-    'userName'   => $fullName,
-    'roleLabel'  => 'Client Wallet',
-    'navItems'   => [
-        ['href' => 'dashboard.php',           'icon' => 'wallet',    'label' => 'Health wallet',      'active' => true],
-        ['href' => '#deposit-section',        'icon' => 'plus',      'label' => 'Quick deposit',      'active' => false],
-        ['href' => '#activity-section',       'icon' => 'clipboard', 'label' => 'Activity & claims',  'active' => false],
-        ['href' => '#partners-section',       'icon' => 'store',     'label' => 'Partner pharmacies', 'active' => false],
-    ],
-]);
+$notifCount = 1 + min(5, count($contributions)) + min(5, count($claims));
 ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AfyaMicro Kampala client dashboard.">
+    <title>My Dashboard | AfyaMicro Kampala</title>
 
-<?= uiAlert($alert, $extraDetail) ?>
+    <link rel="stylesheet" href="../assets/css/base.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="../assets/css/content-expansion.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body class="dashboard-body">
 
-<div class="policy-banner">
-    <span><?= uiIcon('shield', 18) ?></span>
-    <div>
-        <small>POLICY ID</small>
-        <b><?= e($policyNumber) ?></b>
-    </div>
-    <i><?= e(strtoupper($walletStatus)) ?></i>
-</div>
+<div class="dashboard-layout">
 
-<section class="client-grid" id="wallet-section">
-    <article class="wallet-card">
-        <div class="wallet-head">
-            <span><?= uiIcon('wallet') ?></span>
-            <p>HEALTH WALLET</p>
-            <span class="wallet-policy-pill"><?= uiIcon('shield', 13) ?> <?= e($policyNumber) ?></span>
-        </div>
-        <p>Available coverage balance (<?= e($client['plan_name'] ?? 'Basic Care Plan') ?>)</p>
-        <?php [$ugxPrefix, $ugxNumber] = explode(' ', formatUGX($availableBal), 2); ?>
-        <h2><?= e($ugxPrefix) ?> <strong><?= e($ugxNumber) ?></strong></h2>
+    <?php uiClientSidebar('dashboard', $client, $notifCount); ?>
 
-        <div class="wallet-line">
-            <span><i style="width: <?= $coveragePct ?>%"></i></span>
-            <small><?= $coveragePct ?>% of savings available</small>
-        </div>
+    <main class="dashboard-main">
 
-        <div class="wallet-bottom">
+        <?php uiClientTopbar('My Dashboard', 'Policy ' . $policyNumber . ' · ' . $planName, $client); ?>
+
+        <?= uiAlert($alert, $extraDetail) ?>
+
+        <!-- WELCOME -->
+        <section class="dashboard-welcome">
             <div>
-                <small>TOTAL CONTRIBUTED</small>
-                <b><?= e(formatUGX($totalContrib)) ?></b>
+                <h2>Welcome back, <span id="welcomeName"><?= e($firstName) ?></span>!</h2>
+                <p>
+                    Here is a live overview of your health wallet, mobile-money contributions,
+                    and prescription claim activity.
+                </p>
             </div>
-            <div>
-                <small>TOTAL COVERED CLAIMS</small>
-                <b><?= e(formatUGX($clientStats['total_covered'] ?? 0)) ?></b>
-            </div>
-        </div>
-        <div class="wallet-pattern" aria-hidden="true">+</div>
-    </article>
 
-    <article class="card deposit-card" id="deposit-section">
-        <div class="card-title">
-            <span class="title-icon amber-bg"><?= uiIcon('plus') ?></span>
-            <div>
-                <h3>Quick micro-deposit</h3>
-                <p>Add to your health cover anytime via mobile money or cash agent.</p>
-            </div>
-        </div>
+            <span class="demo-label">
+                <span>●</span> POLICY <?= e($policyNumber) ?> · <?= e(strtoupper($walletStatus)) ?>
+            </span>
+        </section>
 
-        <form method="POST" action="deposit_process.php">
-            <?= csrfField() ?>
+        <!-- SUMMARY CARDS -->
+        <section class="dashboard-stats">
 
-            <label>
-                Amount to deposit (UGX)
-                <div class="currency-input">
-                    <span>UGX</span>
-                    <input
-                        type="number"
-                        id="deposit-amount"
-                        name="amount"
-                        min="100"
-                        max="5000000"
-                        step="100"
-                        required
-                        inputmode="numeric"
-                        value="<?= $depositAmtOld ?>"
-                        placeholder="2000"
-                    >
+            <article class="stat-card">
+                <div class="stat-card-top">
+                    <span class="stat-icon">▣</span>
                 </div>
-            </label>
+                <div class="stat-label">Health Wallet Balance</div>
+                <div class="stat-value" id="summaryBalance"><?= e(formatUGX($availableBal)) ?></div>
+                <div class="stat-description">Available prescription cover</div>
+            </article>
 
-            <div class="amount-pills" role="group" aria-label="Preset deposit amounts">
-                <?php foreach ([2000, 5000, 10000, 20000] as $preset): ?>
-                    <button type="button" data-deposit-amount="<?= $preset ?>">
-                        <?= e(formatUGX($preset)) ?>
-                    </button>
-                <?php endforeach; ?>
-            </div>
-
-            <div class="method-field-label">
-                Payment method
-                <div class="payment-options">
-                    <?php $idx = 0; ?>
-                    <?php foreach ($paymentMethods as $code => $label): ?>
-                        <?php $checked = $methodOld === $code; ?>
-                        <label class="payment-option <?= $checked ? 'active' : '' ?>">
-                            <input
-                                type="radio"
-                                name="payment_method"
-                                value="<?= e($code) ?>"
-                                <?= $checked ? 'checked' : '' ?>
-                                required
-                            >
-                            <span class="method-dot dot-<?= $idx ?>"></span>
-                            <span><?= e($code === 'MTN_MoMo' ? 'MTN MoMo' : ($code === 'Airtel_Money' ? 'Airtel Money' : 'Cash Agent')) ?></span>
-                            <span class="radio-ring" aria-hidden="true"></span>
-                        </label>
-                        <?php $idx++; ?>
-                    <?php endforeach; ?>
+            <article class="stat-card">
+                <div class="stat-card-top">
+                    <span class="stat-icon">↗</span>
                 </div>
-            </div>
+                <div class="stat-label">Total Contributions</div>
+                <div class="stat-value" id="summaryContributions"><?= e(formatUGX($totalContrib)) ?></div>
+                <div class="stat-description"><?= $depositsCount ?> completed deposit<?= $depositsCount === 1 ? '' : 's' ?></div>
+            </article>
 
-            <label>
-                Mobile money / payer phone <em>(optional — defaults to <?= e($client['phone'] ?? '') ?>)</em>
-                <div class="input-wrap phone-input">
-                    <span>UG</span>
-                    <input
-                        type="tel"
-                        name="payer_phone"
-                        maxlength="13"
-                        inputmode="numeric"
-                        pattern="(\+?256|0)7[0-9]{8}"
-                        value="<?= $payerPhoneOld ?>"
-                        placeholder="0701555111"
-                    >
+            <article class="stat-card">
+                <div class="stat-card-top">
+                    <span class="stat-icon">♡</span>
                 </div>
-            </label>
+                <div class="stat-label">Total Claims</div>
+                <div class="stat-value" id="summaryClaims"><?= $claimsCount ?></div>
+                <div class="stat-description"><?= e(formatUGX($totalCovered)) ?> covered by wallet</div>
+            </article>
 
-            <button class="btn btn-primary full" type="submit">
-                Deposit micro-premium <?= uiIcon('arrow') ?>
-            </button>
-        </form>
-    </article>
-</section>
+            <article class="stat-card">
+                <div class="stat-card-top">
+                    <span class="stat-icon">✓</span>
+                </div>
+                <div class="stat-label">Account Status</div>
+                <div class="stat-value" id="summaryStatus"><?= e(ucfirst($walletStatus)) ?></div>
+                <div class="stat-description"><?= e($planName) ?></div>
+            </article>
 
-<section class="card activity-card" id="activity-section">
-    <div class="activity-header">
-        <div>
-            <h3>Recent activity</h3>
-            <p>
-                <?= (int) ($clientStats['deposits_count'] ?? 0) ?> completed deposits ·
-                <?= (int) ($clientStats['claims_count'] ?? 0) ?> prescription claims
-                (<?= e(formatUGX($clientStats['total_copay'] ?? 0)) ?> total co-pay)
-            </p>
-        </div>
-    </div>
+        </section>
 
-    <div class="tabs activity-tabs" data-tab-group="client-activity">
-        <button type="button" class="active" data-tab-target="tab-contributions">
-            Contributions <span><?= count($contributions) ?></span>
-        </button>
-        <button type="button" data-tab-target="tab-claims">
-            Prescription claims <span><?= count($claims) ?></span>
-        </button>
-    </div>
+        <!-- WALLET AND QUICK MICRO-DEPOSIT -->
+        <section class="dashboard-content-grid" id="deposit-section">
 
-    <div id="tab-contributions" data-tab-panel-group="client-activity">
-        <?php if (empty($contributions)): ?>
-            <div class="empty-state">No contributions recorded yet. Use the Quick micro-deposit form above to top up your wallet.</div>
-        <?php else: ?>
-            <div class="table-wrap">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Method</th>
-                            <th>Payer Phone</th>
-                            <th>Reference code</th>
-                            <th>Status</th>
-                            <th class="right">Amount</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($contributions as $row): ?>
-                            <tr>
-                                <td data-label="Date"><?= uiDate($row['created_at']) ?></td>
-                                <td data-label="Method">
-                                    <span class="table-icon">
-                                        <?= uiIcon($row['payment_method'] === 'Cash_Agent' ? 'user' : 'phone', 15) ?>
-                                    </span>
-                                    <?= e($row['payment_method_label']) ?>
-                                </td>
-                                <td data-label="Payer Phone"><?= e($row['payer_phone']) ?></td>
-                                <td data-label="Reference"><code><?= e($row['transaction_ref']) ?></code></td>
-                                <td data-label="Status"><?= uiStatusBadge($row['status']) ?></td>
-                                <td data-label="Amount" class="right <?= $row['status'] === 'completed' ? 'positive' : '' ?>">
-                                    <?= $row['status'] === 'completed' ? '+ ' : '' ?><?= e(formatUGX($row['amount'])) ?>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
-        <?php endif; ?>
-    </div>
+            <article class="dashboard-wallet">
 
-    <div id="tab-claims" class="is-hidden" data-tab-panel-group="client-activity">
-        <?php if (empty($claims)): ?>
-            <div class="empty-state">No prescription claims have been made on this policy yet.</div>
-        <?php else: ?>
-            <div class="table-wrap">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Pharmacy</th>
-                            <th>Medication notes</th>
-                            <th>Total cost</th>
-                            <th>Covered</th>
-                            <th>Co-pay</th>
-                            <th class="right">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($claims as $row): ?>
-                            <tr>
-                                <td data-label="Date"><?= uiDate($row['created_at']) ?></td>
-                                <td data-label="Pharmacy"><?= e($row['pharmacy_name']) ?></td>
-                                <td data-label="Medication" class="td-wrap"><?= e($row['prescription_notes']) ?></td>
-                                <td data-label="Total cost"><?= e(formatUGX($row['total_cost'])) ?></td>
-                                <td data-label="Covered" class="positive"><?= e(formatUGX($row['covered_amount'])) ?></td>
-                                <td data-label="Co-pay"><?= e(formatUGX($row['client_copay'])) ?></td>
-                                <td data-label="Status" class="right"><?= uiStatusBadge($row['status']) ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
-        <?php endif; ?>
-    </div>
-</section>
+                <div class="wallet-label">MY HEALTH WALLET · <?= e($policyNumber) ?></div>
 
-<?php if (!empty($pharmacies)): ?>
-    <section class="card partners-grid-card" id="partners-section">
-        <h3>Partner pharmacies in Kampala</h3>
-        <p>Present your Policy ID (<b><?= e($policyNumber) ?></b>) or phone number at any of these verified pharmacies.</p>
-        <div class="partner-list">
-            <?php foreach ($pharmacies as $ph): ?>
-                <div class="partner-item">
-                    <span><?= uiIcon('store') ?></span>
+                <div class="wallet-balance" id="walletBalance">
+                    <?= e(formatUGX($availableBal)) ?>
+                </div>
+
+                <div class="wallet-details">
                     <div>
-                        <b><?= e($ph['name']) ?></b>
-                        <small><i></i> <?= e(strtoupper($ph['location'])) ?> · <?= e($ph['phone']) ?></small>
+                        <span>Total contributions</span>
+                        <strong id="walletContributions"><?= e(formatUGX($totalContrib)) ?></strong>
+                    </div>
+
+                    <div>
+                        <span>Member since</span>
+                        <strong id="memberSince"><?= e($memberSince) ?></strong>
                     </div>
                 </div>
-            <?php endforeach; ?>
-        </div>
-    </section>
-<?php endif; ?>
 
-<?php uiPortalEnd(); ?>
+                <div class="wallet-actions">
+                    <a href="wallet.php" class="wallet-button primary">
+                        + Open Full Wallet
+                    </a>
+
+                    <a href="transactions.php" class="wallet-button">
+                        View Transactions
+                    </a>
+                </div>
+
+            </article>
+
+            <article class="dashboard-panel">
+
+                <div class="panel-heading">
+                    <h3>Quick Micro-Deposit</h3>
+                    <a href="wallet.php">Wallet page →</a>
+                </div>
+
+                <form method="POST" action="deposit_process.php">
+                    <?= csrfField() ?>
+
+                    <div class="form-group" style="margin-bottom: 12px;">
+                        <label for="deposit-amount">Amount to deposit (UGX)</label>
+                        <input
+                            type="number"
+                            id="deposit-amount"
+                            name="amount"
+                            class="form-control"
+                            min="100"
+                            max="5000000"
+                            step="100"
+                            required
+                            inputmode="numeric"
+                            value="<?= $depositAmtOld ?>"
+                            placeholder="2000"
+                        >
+                    </div>
+
+                    <div class="amount-pills" role="group" aria-label="Preset deposit amounts" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
+                        <?php foreach ([2000, 5000, 10000, 20000] as $preset): ?>
+                            <button type="button" class="btn btn-outline" style="padding:7px 12px;font-size:12px;" data-deposit-amount="<?= $preset ?>">
+                                <?= e(formatUGX($preset)) ?>
+                            </button>
+                        <?php endforeach; ?>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 12px;">
+                        <label for="quick-method">Payment channel</label>
+                        <select id="quick-method" name="payment_method" class="form-control" required>
+                            <?php foreach ($paymentMethods as $code => $label): ?>
+                                <option value="<?= e($code) ?>" <?= $methodOld === $code ? 'selected' : '' ?>>
+                                    <?= e($label) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 14px;">
+                        <label for="quick-phone">Payer phone <em>(optional — defaults to <?= e($client['phone'] ?? '') ?>)</em></label>
+                        <input
+                            type="tel"
+                            id="quick-phone"
+                            name="payer_phone"
+                            class="form-control"
+                            maxlength="13"
+                            inputmode="numeric"
+                            value="<?= $payerPhoneOld ?>"
+                            placeholder="0701555111"
+                        >
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block">
+                        Deposit Micro-Premium →
+                    </button>
+                </form>
+
+            </article>
+
+        </section>
+
+        <!-- RECENT ACTIVITY AND NOTIFICATIONS -->
+        <section class="dashboard-content-grid" id="activity-section">
+
+            <article class="dashboard-panel">
+
+                <div class="panel-heading">
+                    <h3>Recent Contributions</h3>
+                    <a href="contributions.php">View all (<?= count($contributions) ?>) →</a>
+                </div>
+
+                <div class="dashboard-table-wrap">
+
+                    <table class="dashboard-table">
+                        <thead>
+                            <tr>
+                                <th>TRANSACTION</th>
+                                <th>DATE</th>
+                                <th>AMOUNT</th>
+                                <th>STATUS</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="recentTransactions">
+                            <?php if (empty($contributions)): ?>
+                                <tr>
+                                    <td colspan="4">No contributions recorded yet. Use Quick Micro-Deposit above to top up.</td>
+                                </tr>
+                            <?php else: ?>
+                                <?php foreach (array_slice($contributions, 0, 5) as $row): ?>
+                                    <tr>
+                                        <td>
+                                            <span class="table-primary-text">
+                                                <?= e($row['payment_method_label']) ?>
+                                            </span>
+                                            <span class="table-secondary-text">
+                                                Ref: <?= e($row['transaction_ref']) ?> · <?= e($row['payer_phone']) ?>
+                                            </span>
+                                        </td>
+                                        <td><?= uiDate($row['created_at'], 'd M Y') ?></td>
+                                        <td><strong><?= e(formatUGX($row['amount'])) ?></strong></td>
+                                        <td><?= uiStatusBadge($row['status']) ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </article>
+
+            <article class="dashboard-panel">
+
+                <div class="panel-heading">
+                    <h3>Recent Notifications</h3>
+                    <a href="notifications.php">View all →</a>
+                </div>
+
+                <div class="dashboard-notice-list" id="dashboardNotifications">
+
+                    <?php if (!empty($contributions)): ?>
+                        <?php $latestC = $contributions[0]; ?>
+                        <div class="dashboard-notice">
+                            <span class="notice-icon">↗</span>
+                            <div>
+                                <strong>Deposit confirmed (<?= e(formatUGX($latestC['amount'])) ?>)</strong>
+                                <p><?= e($latestC['payment_method_label']) ?> · Ref <?= e($latestC['transaction_ref']) ?></p>
+                                <time><?= uiDate($latestC['created_at']) ?></time>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if (!empty($claims)): ?>
+                        <?php $latestCl = $claims[0]; ?>
+                        <div class="dashboard-notice">
+                            <span class="notice-icon">♡</span>
+                            <div>
+                                <strong>Prescription claim at <?= e($latestCl['pharmacy_name']) ?></strong>
+                                <p>Covered <?= e(formatUGX($latestCl['covered_amount'])) ?> · Co-pay <?= e(formatUGX($latestCl['client_copay'])) ?></p>
+                                <time><?= uiDate($latestCl['created_at']) ?></time>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+
+                    <div class="dashboard-notice">
+                        <span class="notice-icon">✓</span>
+                        <div>
+                            <strong>Policy <?= e($policyNumber) ?> active</strong>
+                            <p>Present your policy ID or phone number at any partner pharmacy.</p>
+                            <time>Member since <?= e($memberSince) ?></time>
+                        </div>
+                    </div>
+
+                </div>
+
+            </article>
+
+        </section>
+
+        <!-- CLAIMS AND ACCOUNT INFORMATION -->
+        <section class="dashboard-content-grid">
+
+            <article class="dashboard-panel">
+
+                <div class="panel-heading">
+                    <h3>Claims Overview</h3>
+                    <a href="claims.php">View claims (<?= count($claims) ?>) →</a>
+                </div>
+
+                <div class="dashboard-table-wrap">
+                    <table class="dashboard-table">
+                        <thead>
+                            <tr>
+                                <th>PHARMACY &amp; NOTES</th>
+                                <th>DATE</th>
+                                <th>COVERED / CO-PAY</th>
+                                <th>STATUS</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="dashboardClaims">
+                            <?php if (empty($claims)): ?>
+                                <tr>
+                                    <td colspan="4">No prescription claims recorded on this policy yet.</td>
+                                </tr>
+                            <?php else: ?>
+                                <?php foreach (array_slice($claims, 0, 5) as $cl): ?>
+                                    <tr>
+                                        <td>
+                                            <span class="table-primary-text">
+                                                <?= e($cl['pharmacy_name']) ?> (<?= e(sprintf('CLM-%06d', $cl['claim_id'])) ?>)
+                                            </span>
+                                            <span class="table-secondary-text">
+                                                <?= e($cl['prescription_notes']) ?>
+                                            </span>
+                                        </td>
+                                        <td><?= uiDate($cl['created_at'], 'd M Y') ?></td>
+                                        <td>
+                                            <strong><?= e(formatUGX($cl['covered_amount'])) ?></strong>
+                                            <small style="display:block;color:var(--dash-muted);">Co-pay: <?= e(formatUGX($cl['client_copay'])) ?></small>
+                                        </td>
+                                        <td><?= uiStatusBadge($cl['status']) ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+
+            </article>
+
+            <article class="dashboard-panel">
+
+                <div class="panel-heading">
+                    <h3>Account Information</h3>
+                    <a href="profile.php">View profile →</a>
+                </div>
+
+                <div class="dashboard-notice-list">
+
+                    <div class="dashboard-notice">
+                        <span class="notice-icon">♙</span>
+                        <div>
+                            <strong>Member name &amp; policy</strong>
+                            <p id="accountFullName"><?= e($fullName) ?> (<?= e($policyNumber) ?>)</p>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-notice">
+                        <span class="notice-icon">☎</span>
+                        <div>
+                            <strong>Registered phone</strong>
+                            <p id="accountPhone"><?= e($client['phone'] ?? 'Not available') ?></p>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-notice">
+                        <span class="notice-icon">✚</span>
+                        <div>
+                            <strong>Home pharmacy</strong>
+                            <p id="accountPharmacy"><?= e($client['home_pharmacy'] ?? 'Any partner pharmacy') ?><?= !empty($client['home_pharmacy_location']) ? ' · ' . e($client['home_pharmacy_location']) : '' ?></p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="dashboard-info-card">
+                    <h4>Using your cover at partner pharmacies</h4>
+                    <p>
+                        Present your policy number (<strong><?= e($policyNumber) ?></strong>) or phone number (<strong><?= e($client['phone'] ?? '') ?></strong>) at any partner pharmacy counter in Kampala to redeem prescribed medicines.
+                    </p>
+                </div>
+
+            </article>
+
+        </section>
+
+        <section class="dashboard-extra-guide" id="dashboard-extra-guide">
+
+            <div class="dashboard-extra-heading">
+                <span>MEMBER RESOURCE CENTRE</span>
+                <h2>Getting the most from your dashboard</h2>
+                <p>Explore and manage every area of your AfyaMicro member account.</p>
+            </div>
+
+            <div class="dashboard-extra-grid">
+
+                <article class="dashboard-extra-card">
+                    <span>01</span>
+                    <h3>Manage your wallet</h3>
+                    <p>View your real-time balance, top up via Mobile Money or Cash Agent, and inspect your deposit records.</p>
+                    <a href="wallet.php">Explore wallet →</a>
+                </article>
+
+                <article class="dashboard-extra-card">
+                    <span>02</span>
+                    <h3>Track contributions</h3>
+                    <p>Review all mobile-money and cash-agent deposits credited to your policy wallet.</p>
+                    <a href="contributions.php">View contributions →</a>
+                </article>
+
+                <article class="dashboard-extra-card">
+                    <span>03</span>
+                    <h3>Follow claim activity</h3>
+                    <p>Inspect prescription claims processed at partner pharmacies along with covered amounts and cash co-payments.</p>
+                    <a href="claims.php">Explore claims →</a>
+                </article>
+
+                <article class="dashboard-extra-card">
+                    <span>04</span>
+                    <h3>Stay informed</h3>
+                    <p>Check notifications for deposit confirmations, prescription claim updates, and policy notices.</p>
+                    <a href="notifications.php">View notifications →</a>
+                </article>
+
+                <article class="dashboard-extra-card">
+                    <span>05</span>
+                    <h3>Keep your profile updated</h3>
+                    <p>Review your member profile, registered phone number, NIN, and preferred home pharmacy.</p>
+                    <a href="profile.php">Review profile →</a>
+                </article>
+
+                <article class="dashboard-extra-card">
+                    <span>06</span>
+                    <h3>Find partner pharmacies</h3>
+                    <p>Browse accredited partner pharmacies across Kampala divisions where your policy is accepted.</p>
+                    <a href="../pharmacies.php">Explore pharmacies →</a>
+                </article>
+
+            </div>
+
+        </section>
+
+        <footer style="padding:30px 0 5px;text-align:center;color:#8A9997;font-size:12px;">
+            &copy; <span id="dashboardYear"><?= date('Y') ?></span> AfyaMicro Kampala. All rights reserved.
+        </footer>
+
+    </main>
+
+</div>
+
+<script src="../assets/js/app.js"></script>
+</body>
+</html>
